@@ -13,6 +13,7 @@
   "dependencies": {
     "socket.io": "*",
     "express": "*",
-    "es6-shim":"*"
+    "es6-shim":"*",
+    "ejs": "*"
   }
 }
