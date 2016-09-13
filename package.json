@@ -1,0 +1,18 @@
+{
+  "name": "mortem",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "monitor": "nodemon server.js",
+    "deploy": "gcloud app deploy"
+  },
+  "author": "Hampus Marcus",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "*",
+    "express": "*",
+    "es6-shim":"*"
+  }
+}
