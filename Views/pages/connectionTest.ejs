@@ -35,7 +35,7 @@
   <script type="text/javascript">
 
     $('#join').click(function(){
-      alert('click');
+      
       var socket = io.connect();
       var $messageForm = $('#messageForm');
       var $message = $('#message');
@@ -53,6 +53,7 @@
 
       socket.on('new message', function(data){
         console.log(data.msg);
+        $chat.html("");
         $chat.append(data.msg + "<br/>");
       });
 

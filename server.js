@@ -76,6 +76,7 @@ io.sockets.on('connection', (socket) => {
       else{
           activeGames[data.id].inputSockets.push(socket);
           socket.emit('new message', {msg: 'You are connected as input!'});
+          console.log('Registred new input to room: ' + data.id);
       }
     }
   });
