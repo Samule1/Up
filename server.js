@@ -11,6 +11,7 @@ let connections = [];
 let activeGames = {};
 
 app.set('view engine', 'ejs');
+app.set('views', __dirname + '/Views');
 
 //Routes
 app.get('/', function(req, res){
