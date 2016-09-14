@@ -22,6 +22,10 @@ app.get('/game', function(req, res){
   res.render('pages/game', {data: uniqueId});
 })
 
+app.get('/connectionTest', function(req, res){
+  res.render('pages/connectionTest');
+});
+
 server.listen(process.env.PORT || 3000);
 console.log('Server running..');
 console.log('Listening on: '+ process.env.PORT);
@@ -38,26 +42,42 @@ io.sockets.on('connection', (socket) => {
     console.log('Disconnected: %s sockets connected', connections.length);
   });
 
-  socket.on('register', (data)=>{
-    console.log('Registred room: ' + data.id);
+  //Send message
+  socket.on('send message', (data)=>{
+    console.log(data);
+    activeGames[data.id].viewSockets.forEach(function(socket){
+      socket.emit('new message', {msg: data.msg});
+    });
+  });
 
-    //Adding the connection to the list of games
-    let idTemp = data.id;
-    let game = new models.Game();
+  //Register a new socket
+  socket.on('register', (data)=>{
 
     //Checking if he socket is a browser or phone
-    if(data.type === 'output')
+    if(data.type === 'output'){
+
+      //Creating a new Game-object
+      let game = new models.Game();
       game.viewSockets.push(socket);
-    else if(data.type === 'input')
-      game.inputSockets.push(socket);
 
-    //Adding the instance
-    activeGames[idTemp] = game;
+      //Adding the instance
+      activeGames[data.id] = game;
 
-    //Just showing the what you can do here..
-    activeGames[idTemp].viewSockets.forEach(function(socket){
-      socket.emit('new message', {msg: 'Du är nu anluten som output!'});
-    });
+      console.log('Registred room: ' + data.id);
+
+      //Here maybe an instance of the game should be created..
+    }
+
+    else if(data.type === 'input'){
+      if(activeGames[data.id] === undefined){
+          socket.emit('new message', {msg: 'No room found'});
+          //disconnect the socket here..
+      }
+      else{
+          activeGames[data.id].inputSockets.push(socket);
+          socket.emit('new message', {msg: 'You are connected as input!'});
+      }
+    }
   });
 
 });
