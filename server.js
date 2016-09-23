@@ -27,6 +27,10 @@ app.get('/connectionTest', function(req, res){
   res.render('pages/connectionTest');
 });
 
+app.get('/testGame', function(req, res){
+  res.render('pages/pingpong');
+})
+
 server.listen(process.env.PORT || 3000);
 console.log('Server running..');
 console.log('Listening on: '+ process.env.PORT);
