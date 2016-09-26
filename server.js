@@ -68,7 +68,7 @@ io.sockets.on('connection', (socket) => {
 
   //Register a new socket
   socket.on('register', (data)=>{
-    console.log(data);
+    console.log(data.id);
     //Checking if he socket is a browser or phone
     if(data.type === 'output'){
 
