@@ -68,7 +68,7 @@ io.sockets.on('connection', (socket) => {
 
   //Register a new socket
   socket.on('register', (data)=>{
-
+    console.log(data); 
     //Checking if he socket is a browser or phone
     if(data.type === 'output'){
 
@@ -102,5 +102,10 @@ io.sockets.on('connection', (socket) => {
       }
     }
   });
+
+  //Disconnect input
+  socket.on('quit session' (data)=>{
+
+  })
 
 });
