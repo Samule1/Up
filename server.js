@@ -12,7 +12,8 @@ let activeGames = {};
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/Views');
-
+//app.use(express.static(__dirname+ '/Scripts'));
+app.use(express.static('public'));
 //Routes
 app.get('/', function(req, res){
   res.render('pages/index');
@@ -21,7 +22,7 @@ app.get('/', function(req, res){
 app.get('/game', function(req, res){
   let uniqueId = helper.getRandomId5();
   res.render('pages/game', {data: uniqueId});
-})
+});
 
 app.get('/connectionTest', function(req, res){
   res.render('pages/connectionTest');
@@ -29,13 +30,13 @@ app.get('/connectionTest', function(req, res){
 
 app.get('/testGame', function(req, res){
   res.render('pages/pingpong');
-})
+});
 app.get('/gameframe', function(req, res){
   res.render('partials/gameWindow');
-})
+});
 app.get('/inputCard', function(req, res){
   res.render('partials/inputCard', {roomId: req.query.roomId, nick: req.query.nick})
-})
+});
 
 app.get('/stage', function(req, res){
   let uniqueId = helper.getRandomId5();
@@ -97,7 +98,7 @@ io.sockets.on('connection', (socket) => {
           activeGames[data.id].inputSockets.push(socket);
           activeGames[data.id].viewSockets.forEach((socket)=>{
            socket.emit('new player connected', data);
-         })
+         });
           socket.emit('new message', {msg: 'You are connected as input!', success: true});
 
           console.log('Registred new input to room: ' + data.id);

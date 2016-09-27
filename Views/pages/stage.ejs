@@ -97,8 +97,9 @@
             setTimeout(function(){
               $('#gFrame').load('/gameframe', function(){
                 $('#loader').css('display', 'none');
+                  startGame();
               });
-            }, 5000)
+            }, 1000)
           })
         }
       })
