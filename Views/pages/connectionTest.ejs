@@ -12,18 +12,24 @@
   <div class="container">
     <div class ="row">
       <div class="col-md-4">
-        <div class="form-group">
-          <label for="roomBox">Room id:</label>
-          <textarea class="form-control" rows="1" id="roomBox"></textarea>
-          <input id="join" type="button" class="btn btn-primary" style="margin-top: 10px;" value="Join">
+        <div id="cardContainer">
+          <div id="form" class="form-group">
+            <label for="roomBox">Room id:</label>
+            <textarea class="form-control" rows="1" id="roomBox"></textarea>
+            <label for="roomBox">Nick name:</label>
+            <textarea class="form-control" rows="1" id="nickBox"></textarea>
+            <input id="join" type="button" class="btn btn-primary" style="margin-top: 10px;" value="Join">
+
+          </div>
         </div>
         <div class="chat" id="chat"></div>
-        <form  id="messageForm" action="#">
+        <form  id="messageForm" action="#" style="display: none;" >
             <div class="form-group">
               <label>Enter Message</label>
               <textarea class="form-control" id="message"></textarea>
               <br/>
-              <input type="submit" class="btn btn-primary" vaule="Send message">
+              <input type="submit" class="btn btn-primary" value="Send message">
+              <input id="quit" type="button" class="btn btn-danger" value="Disconnect">
             </div>
 
         </form>
@@ -35,19 +41,21 @@
   <script type="text/javascript">
 
     $('#join').click(function(){
-      
+
       var socket = io.connect();
       var $messageForm = $('#messageForm');
       var $message = $('#message');
       var $chat = $('#chat');
-      var data = $('#roomBox').val().trim();
-      console.log(data);
+      var roomId = $('#roomBox').val().trim();
+      var nick = $('#nickBox').val().trim();
 
-      socket.emit('register', {id: data, type: 'input'});
+
+      socket.emit('register', {id: roomId, type: 'input', nick: nick });
 
       $messageForm.submit(function(e){
         e.preventDefault();
-        socket.emit('send message', {msg: $message.val(), id: data});
+        socket.emit('send message', {msg: $message.val(), id: roomId, nick: nick});
+        console.log($message.val())
         $message.val('');
       });
 
@@ -55,6 +63,12 @@
         console.log(data.msg);
         $chat.html("");
         $chat.append(data.msg + "<br/>");
+        if(data.success){
+          $('#cardContainer').load('/inputCard?roomId='+roomId+'&nick='+nick, function(){
+            $('#messageForm').css('display', '');
+          });
+          $('#form').remove();
+        }
       });
 
     });

@@ -30,6 +30,20 @@ app.get('/connectionTest', function(req, res){
 app.get('/testGame', function(req, res){
   res.render('pages/pingpong');
 })
+app.get('/gameframe', function(req, res){
+  res.render('partials/gameWindow');
+})
+app.get('/inputCard', function(req, res){
+  res.render('partials/inputCard', {roomId: req.query.roomId, nick: req.query.nick})
+})
+
+app.get('/stage', function(req, res){
+  let uniqueId = helper.getRandomId5();
+  let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
+  let playerLimit = 2;
+  qrSource = qrSource.replace("[roomId]", uniqueId);
+  res.render('pages/stage', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
+});
 
 server.listen(process.env.PORT || 3000);
 console.log('Server running..');
@@ -51,13 +65,13 @@ io.sockets.on('connection', (socket) => {
   socket.on('send message', (data)=>{
     console.log(data);
     activeGames[data.id].viewSockets.forEach(function(socket){
-      socket.emit('new message', {msg: data.msg});
+      socket.emit('new message', {msg: data.msg, nick: data.nick});
     });
   });
 
   //Register a new socket
   socket.on('register', (data)=>{
-
+    
     //Checking if he socket is a browser or phone
     if(data.type === 'output'){
 
@@ -75,15 +89,25 @@ io.sockets.on('connection', (socket) => {
 
     else if(data.type === 'input'){
       if(activeGames[data.id] === undefined){
-          socket.emit('new message', {msg: 'No room found'});
+          socket.emit('new message', {msg: 'No room found', success: false});
+          socket.disconnect();
           //disconnect the socket here..
       }
       else{
           activeGames[data.id].inputSockets.push(socket);
-          socket.emit('new message', {msg: 'You are connected as input!'});
+          activeGames[data.id].viewSockets.forEach((socket)=>{
+           socket.emit('new player connected', data);
+         })
+          socket.emit('new message', {msg: 'You are connected as input!', success: true});
+
           console.log('Registred new input to room: ' + data.id);
       }
     }
   });
+
+  //Disconnect input
+  socket.on('quit session', (data)=>{
+
+  })
 
 });
