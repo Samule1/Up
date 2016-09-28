@@ -114,6 +114,13 @@ io.sockets.on('connection', (socket) => {
     }
   });
 
+  //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...
+  socket.on('feedback', (data)=>{
+    activeGames[data.roomId].inputSockets.forEach(function(socket){
+      socket.emit('move received');
+    })
+  })
+
   //Disconnect input
   socket.on('quit session', (data)=>{
 

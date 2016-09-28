@@ -175,6 +175,8 @@
           default:
             break;
         }
+
+        socket.emit('feedback', {roomId: '<%= data %>' }); 
       });
     });
 
