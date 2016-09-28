@@ -21,6 +21,8 @@
     <div class="row">
       <div class="col-xs-12 text-center">
         <h1>Waiting for players</h1>
+        </br>
+        <div id="arduinoContainer"></div>
       </div>
     </div>
     <div class="row">
@@ -42,7 +44,7 @@
         <div class="col-xs-12">
             <div class="col-xs-4"></div>
                 <div class="col-xs-4 text-center">
-                  <input id="startGameButton" type="button" class="btn-info" value="Waiting for players">
+                  <input id="startGameButton" type="button" class="btn-info" value="Waiting for connection">
                 </div>
             <div class="col-xs-4"></div>
         </div>
@@ -74,21 +76,14 @@
 
       //Add the name-tag on thr side of QR.
       socket.on('new player connected', function(data){
-        if(connectedPlayers == 0){
-          $('#playerContainer1').html('<div class="well text-center">'+data.nick+'</div>');
-          connectedPlayers++;
-          console.log(connectedPlayers);
-        }
-        else{
-          $('#playerContainer2').html('<div class="well text-center">'+data.nick+'</div>');
-          connectedPlayers++;
-        }
+        $('#arduinoContainer').html('<div class="well text-center"><i>'+ data.nick+'</i></div>')
+        connectedPlayers++;
         if(connectedPlayers == playerLimit){
 
           //Change the color of the start button..
           $('#startGameButton').addClass('btn-success');
           $('#startGameButton').removeClass('btn-info');
-          $('#startGameButton').attr('value', 'Start Game!');
+          $('#startGameButton').attr('value', 'Start test!');
           $('#startGameButton').click(function(){
             $('#stage').html("");
             $('#loader').css('display', '');
@@ -105,8 +100,59 @@
 
       //Registering some comminucation events
       socket.on('new message', function(data){
-        console.log(data.msg);
-        $('#chat').append(data.nick+' -> '+data.msg + "<br/>");
+
+        $('#up').removeClass('btn-danger');
+        $('#down').removeClass('btn-danger');
+        $('#right').removeClass('btn-danger');
+        $('#left').removeClass('btn-danger');
+
+        $('#up').removeClass('btn-warning');
+        $('#down').removeClass('btn-warning');
+        $('#left').removeClass('btn-warning');
+        $('#right').removeClass('btn-warning');
+
+        $('#center').removeClass('btn-success');
+
+        /*
+
+        $('#up').toggleClass('btn-primary');
+        $('#down').toggleClass('btn-primary');
+        $('#left').toggleClass('btn-primary');
+        $('#right').toggleClass('btn-primary');
+        $('#center').toggleClass('btn-primary');
+
+        */
+        switch(data.msg){
+          case 'L0':
+            $('#left').toggleClass('btn-warning');
+            break;
+          case 'L1':
+            $('#left').toggleClass('btn-danger');
+            break;
+          case 'R0':
+            $('#right').toggleClass('btn-warning');
+            break;
+          case 'R1':
+            $('#right').toggleClass('btn-danger');
+            break;
+          case 'U0':
+            $('#up').toggleClass('btn-warning');
+            break;
+          case 'U1':
+            $('#up').toggleClass('btn-danger');
+            break;
+          case 'D0':
+            $('#down').toggleClass('btn-warning');
+            break;
+          case 'D1':
+            $('#down').toggleClass('btn-danger');
+            break;
+          case 'C':
+             $('#center').toggleClass('btn-success');
+            break;
+          default:
+            break;
+        }
       });
     });
 

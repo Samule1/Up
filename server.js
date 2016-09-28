@@ -42,6 +42,18 @@ app.get('/stage', function(req, res){
   res.render('pages/stage', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
 });
 
+app.get('/arduinotest', function(req, res){
+  let uniqueId = helper.getRandomId5();
+  let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
+  let playerLimit = 1;
+  qrSource = qrSource.replace("[roomId]", uniqueId);
+  res.render('pages/arduinotester', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
+});
+
+app.get('/arduinotestsite', function(req, res){
+  res.render('partials/arduinotestsite');
+});
+
 server.listen(process.env.PORT || 3000);
 console.log('Server running..');
 console.log('Listening on: '+ process.env.PORT);
@@ -68,7 +80,7 @@ io.sockets.on('connection', (socket) => {
 
   //Register a new socket
   socket.on('register', (data)=>{
-    
+
     //Checking if he socket is a browser or phone
     if(data.type === 'output'){
 
