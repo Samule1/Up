@@ -90,7 +90,7 @@
 
             //Faking some load-time here test the loader..
             setTimeout(function(){
-              $('#gFrame').load('/arduinotestsite', function(){
+              $('#gFrame').load('/andriodtestsite', function(){
                 $('#loader').css('display', 'none');
               });
             }, 5000)
@@ -105,23 +105,21 @@
         $('#down').removeClass('btn-danger');
         $('#right').removeClass('btn-danger');
         $('#left').removeClass('btn-danger');
+        $('#leftdown').removeClass('btn-danger');
+        $('#rightdown').removeClass('btn-danger');
+        $('#leftup').removeClass('btn-danger');
+        $('#rightup').removeClass('btn-danger');
 
         $('#up').removeClass('btn-warning');
         $('#down').removeClass('btn-warning');
         $('#left').removeClass('btn-warning');
         $('#right').removeClass('btn-warning');
+        $('#leftdown').removeClass('btn-warning');
+        $('#rightdown').removeClass('btn-warning');
+        $('#leftup').removeClass('btn-warning');
+        $('#rightup').removeClass('btn-warning');
 
         $('#center').removeClass('btn-success');
-
-        /*
-
-        $('#up').toggleClass('btn-primary');
-        $('#down').toggleClass('btn-primary');
-        $('#left').toggleClass('btn-primary');
-        $('#right').toggleClass('btn-primary');
-        $('#center').toggleClass('btn-primary');
-
-        */
         switch(data.msg){
           case 'L0':
             $('#left').toggleClass('btn-warning');
@@ -149,6 +147,30 @@
             break;
           case 'C':
              $('#center').toggleClass('btn-success');
+            break;
+          case 'LD0':
+            $('#leftdown').toggleClass('btn-warning');
+            break;
+          case 'LD1':
+            $('#leftdown').toggleClass('btn-danger');
+            break;
+          case 'LU0':
+            $('#leftup').toggleClass('btn-warning');
+            break;
+          case 'LU1':
+            $('#leftup').toggleClass('btn-danger');
+            break;
+          case 'RD0':
+            $('#rightdown').toggleClass('btn-warning');
+            break;
+          case 'RD1':
+            $('#rightdown').toggleClass('btn-danger');
+            break;
+          case 'RU0':
+            $('#rightup').toggleClass('btn-warning');
+            break;
+          case 'RU1':
+            $('#rightup').toggleClass('btn-danger');
             break;
           default:
             break;

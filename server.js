@@ -42,16 +42,16 @@ app.get('/stage', function(req, res){
   res.render('pages/stage', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
 });
 
-app.get('/arduinotest', function(req, res){
+app.get('/andriodtest', function(req, res){
   let uniqueId = helper.getRandomId5();
   let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
   let playerLimit = 1;
   qrSource = qrSource.replace("[roomId]", uniqueId);
-  res.render('pages/arduinotester', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
+  res.render('pages/andriodtester', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
 });
 
-app.get('/arduinotestsite', function(req, res){
-  res.render('partials/arduinotestsite');
+app.get('/andriodtestsite', function(req, res){
+  res.render('partials/andriodtestsite');
 });
 
 server.listen(process.env.PORT || 3000);
