@@ -51,11 +51,11 @@ app.get('/andriodtest', function(req, res){
   let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
   let playerLimit = 1;
   qrSource = qrSource.replace("[roomId]", uniqueId);
-  res.render('pages/andriodtester', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
+  res.render('pages/androidtester', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
 });
 
-app.get('/andriodtestsite', function(req, res){
-  res.render('partials/andriodtestsite');
+app.get('/androidtestsite', function(req, res){
+  res.render('partials/androidtestsite');
 });
 
 server.listen(process.env.PORT || 3000);

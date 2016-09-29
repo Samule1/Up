@@ -90,7 +90,7 @@
 
             //Faking some load-time here test the loader..
             setTimeout(function(){
-              $('#gFrame').load('/andriodtestsite', function(){
+              $('#gFrame').load('/androidtestsite', function(){
                 $('#loader').css('display', 'none');
               });
             }, 5000)
@@ -176,7 +176,7 @@
             break;
         }
 
-        socket.emit('feedback', {roomId: '<%= data %>' }); 
+        socket.emit('feedback', {roomId: '<%= data %>' });
       });
     });
 
