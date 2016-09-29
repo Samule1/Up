@@ -13,7 +13,7 @@ let activeGames = {};
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/Views');
 //app.use(express.static(__dirname+ '/Scripts'));
-app.use(express.static('public'));
+app.use(express.static('Public'));
 //Routes
 app.get('/', function(req, res){
   res.render('pages/index');
@@ -46,7 +46,7 @@ app.get('/stage', function(req, res){
   res.render('pages/stage', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
 });
 
-app.get('/andriodtest', function(req, res){
+app.get('/androidtest', function(req, res){
   let uniqueId = helper.getRandomId5();
   let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
   let playerLimit = 1;
