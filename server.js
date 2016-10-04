@@ -13,7 +13,7 @@ let activeGames = {};
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/Views');
 //app.use(express.static(__dirname+ '/Scripts'));
-app.use(express.static('public'));
+app.use(express.static('Public'));
 //Routes
 app.get('/', function (req, res) {
     res.render('pages/index');
@@ -44,6 +44,18 @@ app.get('/stage', function (req, res) {
     let playerLimit = 2;
     qrSource = qrSource.replace("[roomId]", uniqueId);
     res.render('pages/stage', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
+});
+
+app.get('/androidtest', function(req, res){
+  let uniqueId = helper.getRandomId5();
+  let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
+  let playerLimit = 1;
+  qrSource = qrSource.replace("[roomId]", uniqueId);
+  res.render('pages/androidtester', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
+});
+
+app.get('/androidtestsite', function(req, res){
+  res.render('partials/androidtestsite');
 });
 
 server.listen(process.env.PORT || 3000);
@@ -79,17 +91,13 @@ io.sockets.on('connection', (socket) => {
         console.log('Disconnected: %s sockets connected', connections.length);
     });
 
+
     //Send message
     socket.on('send message', (data)=> {
         console.log(data);
         for(var viewSocketId in activeGames[data.id].viewSockets){
             socket.emit('new message', {msg: data.msg, nick: data.nick});
         }
-        /*
-        activeGames[data.id].viewSockets.forEach(function (socket) {
-            socket.emit('new message', {msg: data.msg, nick: data.nick});
-        });
-        */
     });
 
     //Register a new socket
@@ -132,9 +140,15 @@ io.sockets.on('connection', (socket) => {
         }
     });
 
-    //Disconnect input
-    socket.on('quit session', (data)=> {
+  //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...
+  socket.on('feedback', (data)=>{
+    activeGames[data.roomId].inputSockets.forEach(function(socket){
+      socket.emit('move received');
+    });
+  });
 
-    })
+  //Disconnect input
+  socket.on('quit session', (data)=>{
 
+    });
 });

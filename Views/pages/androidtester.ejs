@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/head %>
+  <style media="screen">
+    body{
+      margin-top: 50px;
+    }
+  </style>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#qr').click(function(){
+        alert('<%= data %>');
+        console.log('<%= data %>');
+      })
+    })
+  </script>
+</head>
+<body>
+  <div id="stage">
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <h1>Waiting for players</h1>
+        </br>
+        <div id="arduinoContainer"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+          <div class="col-xs-4">
+            <div class="col-xs-6"></div>
+            <div id="playerContainer1" class="col-xs-6"></div>
+          </div>
+          <div class="col-xs-4 text-center">
+            <img id="qr" src="<%= qr %>" ></img>
+          </div>
+          <div class="col-xs-4">
+            <div id="playerContainer2" class="col-xs-6"></div>
+            <div class="col-xs-6"></div>
+          </div>
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="col-xs-4"></div>
+                <div class="col-xs-4 text-center">
+                  <input id="startGameButton" type="button" class="btn-info" value="Waiting for connection">
+                </div>
+            <div class="col-xs-4"></div>
+        </div>
+    </div>
+  </div>
+  <div id="gFrame"></div>
+  <div id="loader" class="sk-cube-grid" style="display: none; margin-top 20%;">
+    <div class="sk-cube sk-cube1"></div>
+    <div class="sk-cube sk-cube2"></div>
+    <div class="sk-cube sk-cube3"></div>
+    <div class="sk-cube sk-cube4"></div>
+    <div class="sk-cube sk-cube5"></div>
+    <div class="sk-cube sk-cube6"></div>
+    <div class="sk-cube sk-cube7"></div>
+    <div class="sk-cube sk-cube8"></div>
+    <div class="sk-cube sk-cube9"></div>
+</div>
+  <script type="text/javascript">
+    $(function(){
+      var socket = io.connect();
+      var data = '<%= data %>'
+      var playerLimit = '<%= playerLimit %>';
+      var connectedPlayers = 0;
+      console.log(data);
+
+      //Regestring the socket..
+      socket.emit('register', {id: data, type: 'output'});
+
+
+      //Add the name-tag on thr side of QR.
+      socket.on('new player connected', function(data){
+        $('#arduinoContainer').html('<div class="well text-center"><i>'+ data.nick+'</i></div>')
+        connectedPlayers++;
+        if(connectedPlayers == playerLimit){
+
+          //Change the color of the start button..
+          $('#startGameButton').addClass('btn-success');
+          $('#startGameButton').removeClass('btn-info');
+          $('#startGameButton').attr('value', 'Start test!');
+          $('#startGameButton').click(function(){
+            $('#stage').html("");
+            $('#loader').css('display', '');
+
+            //Faking some load-time here test the loader..
+            setTimeout(function(){
+              $('#gFrame').load('/androidtestsite', function(){
+                $('#loader').css('display', 'none');
+              });
+            }, 5000)
+          })
+        }
+      })
+
+      //Registering some comminucation events
+      socket.on('new message', function(data){
+
+        $('#up').removeClass('btn-danger');
+        $('#down').removeClass('btn-danger');
+        $('#right').removeClass('btn-danger');
+        $('#left').removeClass('btn-danger');
+        $('#leftdown').removeClass('btn-danger');
+        $('#rightdown').removeClass('btn-danger');
+        $('#leftup').removeClass('btn-danger');
+        $('#rightup').removeClass('btn-danger');
+
+        $('#up').removeClass('btn-warning');
+        $('#down').removeClass('btn-warning');
+        $('#left').removeClass('btn-warning');
+        $('#right').removeClass('btn-warning');
+        $('#leftdown').removeClass('btn-warning');
+        $('#rightdown').removeClass('btn-warning');
+        $('#leftup').removeClass('btn-warning');
+        $('#rightup').removeClass('btn-warning');
+
+        $('#center').removeClass('btn-success');
+        switch(data.msg){
+          case 'L0':
+            $('#left').toggleClass('btn-warning');
+            break;
+          case 'L1':
+            $('#left').toggleClass('btn-danger');
+            break;
+          case 'R0':
+            $('#right').toggleClass('btn-warning');
+            break;
+          case 'R1':
+            $('#right').toggleClass('btn-danger');
+            break;
+          case 'U0':
+            $('#up').toggleClass('btn-warning');
+            break;
+          case 'U1':
+            $('#up').toggleClass('btn-danger');
+            break;
+          case 'D0':
+            $('#down').toggleClass('btn-warning');
+            break;
+          case 'D1':
+            $('#down').toggleClass('btn-danger');
+            break;
+          case 'C':
+             $('#center').toggleClass('btn-success');
+            break;
+          case 'LD0':
+            $('#leftdown').toggleClass('btn-warning');
+            break;
+          case 'LD1':
+            $('#leftdown').toggleClass('btn-danger');
+            break;
+          case 'LU0':
+            $('#leftup').toggleClass('btn-warning');
+            break;
+          case 'LU1':
+            $('#leftup').toggleClass('btn-danger');
+            break;
+          case 'RD0':
+            $('#rightdown').toggleClass('btn-warning');
+            break;
+          case 'RD1':
+            $('#rightdown').toggleClass('btn-danger');
+            break;
+          case 'RU0':
+            $('#rightup').toggleClass('btn-warning');
+            break;
+          case 'RU1':
+            $('#rightup').toggleClass('btn-danger');
+            break;
+          default:
+            break;
+        }
+
+        socket.emit('feedback', {roomId: '<%= data %>' });
+      });
+    });
+
+  </script>
+
+
+</body>
+
+</html>
