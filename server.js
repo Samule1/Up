@@ -5,6 +5,7 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var helper = require('./helpers.js');
 var models = require('./models.js');
+var games = require('./pingpong.js');
 
 //Globals
 let connections = [];
@@ -96,7 +97,8 @@ io.sockets.on('connection', (socket) => {
     socket.on('send message', (data)=> {
         console.log(data);
         for(var viewSocketId in activeGames[data.id].viewSockets){
-            socket.emit('new message', {msg: data.msg, nick: data.nick});
+            console.log('in the leep');
+            connections[viewSocketId].emit('new message', {msg: data.msg, nick: data.nick});
         }
     });
 
@@ -118,6 +120,7 @@ io.sockets.on('connection', (socket) => {
             console.log('Registred room: ' + data.id);
 
             //Here maybe an instance of the game should be created..
+            activeGames[data.id].gameState = new games.PingpongGame(activeGames[data.id], connections);
         }
 
         else if (data.type === 'input') {
@@ -150,5 +153,14 @@ io.sockets.on('connection', (socket) => {
   //Disconnect input
   socket.on('quit session', (data)=>{
 
+    });
+
+    //Register new move to game
+    socket.on('new move', (data)=>{
+        activeGames[socket.roomId].gameState.setDirection(data.move);
+    });
+
+    socket.on('start game', (data)=>{
+        activeGames[socket.roomId].gameState.start();
     });
 });

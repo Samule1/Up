@@ -97,7 +97,8 @@
             setTimeout(function(){
               $('#gFrame').load('/gameframe', function(){
                 $('#loader').css('display', 'none');
-                  startGame();
+                  //startGame();
+                  socket.emit('start game');
               });
             }, 1000)
           })

@@ -1,0 +1,150 @@
+/**
+ * Created by Flarpz on 2016-10-04.
+ */
+"use strict";
+module.exports = {
+    PingpongGame: function(game, connections){
+        this.initGame = function initGame(){
+            this.PlayerOneRed = new component(30, 130, "red", 20, 200);
+            this.PlayerTwoBlue = new component(30, 130, "blue", 940, 200);
+            this.TheBall = new component(20,20, 'black', 480, 230);
+            this.TheBall.speedX = 2;
+            this.Top = new component(1000, 5, "black", 0, 0);
+            this.Bottom = new component(1000, 5, "black", 0, 495);
+        }
+        this.update = function update(){
+            if(collisonTest2(Top, TheBall)){
+                console.log("krock med top")
+                reverseAngel(TheBall);
+            }
+            if(collisonTest2(Bottom, TheBall)){
+                console.log("krock med bottom")
+                reverseAngel(TheBall);
+            }
+            if((PlayerOneRed.y + PlayerOneRed.speedY) > 0 && (PlayerOneRed.y + PlayerOneRed.speedY) < 500-130 ){
+                this.PlayerOneRed.newPos();
+            }
+            if((PlayerTwoBlue.y + PlayerTwoBlue.speedY) > 0 && (PlayerTwoBlue.y + PlayerTwoBlue.speedY) < 500-130 ){
+                this.PlayerTwoBlue.newPos();
+            }
+            this.TheBall.newPos();
+
+            if(TheBall.x < 0 || TheBall.x > 1000){
+                this.TheBall.x = 500;
+                this.TheBall.speedX = 2;
+            }
+            //update positions
+
+            let gameState = {
+                p1: {x: PlayerOneRed.x, y: PlayerOneRed.y},
+                p2: {x: PlayerTwoBlue.x, y: PlayerTwoBlue.y},
+                ball: {x: TheBall.x, y: TheBall.y}
+            };
+            for(var socketId in game.viewSockets){
+                connections[socketId].emit('updateGameState', gameState)
+            }
+        }
+        this.start = function start(){
+            this.interval = setInterval(this.update, 1000);
+        }
+        this.stop = function stop(){
+            //this.interval.
+        }
+        this.setDirection = function setDirection(playerAndDirection){
+            let speed = 0;
+            if(playerAndDirection.move === 'U0'){
+                speed = -2;
+            }
+            if(playerAndDirection.move === 'U1'){
+                speed = -4;
+            }
+            if(playerAndDirection.move === 'D0'){
+                speed = 2;
+            }
+            if(playerAndDirection.move === 'D1'){
+                speed = 4;
+            }
+
+            if(playerAndDirection.player === 1){
+                this.PlayerOneRed.speedY += speed;
+            }
+            else if(playerAndDirection.player === 2){
+                this.PlayerTwoBlue.speedY += speed;
+            }
+            else{
+                console.log('error in playerDirection');
+            }
+        }
+
+
+    }
+
+
+}
+
+
+function component(width, height, color, x, y) {
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;
+    this.x = x;
+    this.y = y;
+    this.newPos = function() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+    }
+}
+
+function collisonTest2(rect1, rect2) {
+    if (rect1.x < rect2.x + rect2.width &&
+        rect1.x + rect1.width > rect2.x &&
+        rect1.y < rect2.y + rect2.height &&
+        rect1.height + rect1.y > rect2.y) {
+        return true;
+    }
+}
+
+function newDirection(rect1, rect2){  // rect2 ball
+    if(collisonTest2(rect1, rect2)){
+        var mid = rect2.y + rect2.height/2;
+        console.log("collison detected");
+        var interval = rect1.height/5;
+        if(mid < (rect1.y + interval) && mid > rect1.y){  //rect2.x
+            console.log("col i 8")
+            reverseDirectionX(rect2);
+            rect2.speedY = -2;
+        }
+        if(mid > (rect1.y +interval)  && mid < (rect1.y + interval*2)){
+            console.log("col i 9")
+            reverseDirectionX(rect2);
+            rect2.speedY = -1;
+        }
+        if(mid > (rect1.y + interval*2) && mid < (rect1.y + interval*3)){
+            console.log("col i 10")
+            reverseDirectionX(rect2);
+            rect2.speedY = 0;
+        }
+        if(mid > (rect1.y + interval*3) && mid < (rect1.y + interval*4)){
+            console.log("col i 11")
+            reverseDirectionX(rect2);
+            rect2.speedY = 1;
+        }
+        if(mid > (rect1.y + interval*4) && mid < (rect1.y +interval*5)){
+            console.log("col i 12")
+            reverseDirectionX(rect2);
+            rect2.speedY = 2;
+        }
+    }
+}
+
+function reverseDirectionX(rect){
+    if(rect.speedX > 0 ){
+        rect.speedX = rect.speedX * -1;
+        console.log(rect.speedX);
+    }
+    else{
+        rect.speedX = rect.speedX * -1;
+    }
+}
+
