@@ -97,7 +97,7 @@
             setTimeout(function(){
               $('#gFrame').load('/gameframe', function(){
                 $('#loader').css('display', 'none');
-                  //startGame();
+                  startGame();
                   socket.emit('start game');
               });
             }, 1000)
@@ -110,6 +110,9 @@
         console.log(data.msg);
         $('#chat').append(data.nick+' -> '+data.msg + "<br/>");
       });
+        socket.on('updateGameState', function(data){
+            updatePositons(data);
+        });
     });
 
   </script>

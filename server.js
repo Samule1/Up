@@ -121,6 +121,7 @@ io.sockets.on('connection', (socket) => {
 
             //Here maybe an instance of the game should be created..
             activeGames[data.id].gameState = new games.PingpongGame(activeGames[data.id], connections);
+            //activeGames[data.id].gameState.initGame();
         }
 
         else if (data.type === 'input') {
