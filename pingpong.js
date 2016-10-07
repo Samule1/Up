@@ -27,6 +27,8 @@ module.exports = {
                 this.PlayerTwoBlue.newPos();
             }
             this.TheBall.newPos();
+            newDirection(this.PlayerOneRed, this.TheBall);
+            newDirection(this.PlayerTwoBlue, this.TheBall);
 
             if (this.TheBall.x < 0 || this.TheBall.x > 1000) {
                 this.TheBall.x = 500;
@@ -51,6 +53,7 @@ module.exports = {
             //this.interval.
         }
         this.setDirection = function setDirection(playerAndDirection) {
+            console.log(playerAndDirection.move);
             let speed = 0;
             if (playerAndDirection.move === 'U0') {
                 speed = -2;
@@ -95,7 +98,6 @@ function component(width, height, color, x, y) {
 }
 
 function collisonTest2(rect1, rect2) {
-    console.log(rect1);
     if (rect1.x < rect2.x + rect2.width &&
         rect1.x + rect1.width > rect2.x &&
         rect1.y < rect2.y + rect2.height &&
@@ -134,6 +136,15 @@ function newDirection(rect1, rect2){  // rect2 ball
             reverseDirectionX(rect2);
             rect2.speedY = 2;
         }
+    }
+}
+
+function reverseAngel(rect){
+    if(rect.speedY > 0){
+        rect.speedY = rect.speedY *-1;
+    }
+    else{
+        rect.speedY = rect.speedY *-1;
     }
 }
 

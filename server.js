@@ -10,6 +10,7 @@ var games = require('./pingpong.js');
 //Globals
 let connections = [];
 let activeGames = {};
+let playerCounter = 0;
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/Views');
@@ -131,9 +132,12 @@ io.sockets.on('connection', (socket) => {
                 //disconnect the socket here..
             }
             else {
+                playerCounter++;
                 activeGames[data.id].inputSockets[socket.id] = socket.id;
                 socket.roomId = data.id;
                 socket.type = 'input';
+                socket.player = playerCounter;
+                console.log('playerCounter = ' + playerCounter);
                 for(var viewSocketId in activeGames[data.id].viewSockets){
                     connections[viewSocketId].emit('new player connected', data);
                 }
@@ -158,7 +162,9 @@ io.sockets.on('connection', (socket) => {
 
     //Register new move to game
     socket.on('new move', (data)=>{
-        activeGames[socket.roomId].gameState.setDirection(data.move);
+        console.log('move' + data.move);
+        data.player = socket.player;
+        activeGames[socket.roomId].gameState.setDirection(data);
     });
 
     socket.on('start game', (data)=>{

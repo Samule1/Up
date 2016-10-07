@@ -30,6 +30,8 @@
               <br/>
               <input type="submit" class="btn btn-primary" value="Send message">
               <input id="quit" type="button" class="btn btn-danger" value="Disconnect">
+              <input id="Up" type="Up" class="btn btn-danger" value="Up">
+              <input id="Down" type="Down" class="btn btn-danger" value="Down">
             </div>
 
         </form>
@@ -51,6 +53,26 @@
 
 
       socket.emit('register', {id: roomId, type: 'input', nick: nick });
+
+
+      $('#Up').click(function() {
+        socket.emit('new move', {move: 'U0'});
+        console.log('Up');
+      });
+
+      $('#Down').click(function() {
+        socket.emit('new move', {move: 'D0'});
+        console.log('Down');
+      });
+/*
+      $messageForm.Up(function(e){
+        socket.emit('new move', 'U0');
+      });
+
+      $messageForm.Down(function(e){
+        socket.emit('new move', 'D0');
+      });
+*/
 
       $messageForm.submit(function(e){
         e.preventDefault();
