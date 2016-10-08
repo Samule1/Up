@@ -56,7 +56,6 @@ module.exports = {
             //this.interval.
         }
         this.setDirection = function setDirection(playerAndDirection) {
-            console.log(playerAndDirection.move);
             let speed = 0;
             if (playerAndDirection.move === 'U0') {
                 speed = -2;
@@ -112,30 +111,24 @@ function collisonTest2(rect1, rect2) {
 function newDirection(rect1, rect2){  // rect2 ball
     if(collisonTest2(rect1, rect2)){
         var mid = rect2.y + rect2.height/2;
-        console.log("collison detected");
         var interval = rect1.height/5;
         if(mid < (rect1.y + interval) && mid > rect1.y){  //rect2.x
-            console.log("col i 8")
             reverseDirectionX(rect2);
             rect2.speedY = -2;
         }
         if(mid > (rect1.y +interval)  && mid < (rect1.y + interval*2)){
-            console.log("col i 9")
             reverseDirectionX(rect2);
             rect2.speedY = -1;
         }
         if(mid > (rect1.y + interval*2) && mid < (rect1.y + interval*3)){
-            console.log("col i 10")
             reverseDirectionX(rect2);
             rect2.speedY = 0;
         }
         if(mid > (rect1.y + interval*3) && mid < (rect1.y + interval*4)){
-            console.log("col i 11")
             reverseDirectionX(rect2);
             rect2.speedY = 1;
         }
         if(mid > (rect1.y + interval*4) && mid < (rect1.y +interval*5)){
-            console.log("col i 12")
             reverseDirectionX(rect2);
             rect2.speedY = 2;
         }
@@ -154,7 +147,6 @@ function reverseAngel(rect){
 function reverseDirectionX(rect){
     if(rect.speedX > 0 ){
         rect.speedX = rect.speedX * -1;
-        console.log(rect.speedX);
     }
     else{
         rect.speedX = rect.speedX * -1;
