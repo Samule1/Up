@@ -11,8 +11,11 @@ module.exports = {
         this.TheBall.speedX = 2;
         this.Top = new component(1000, 5, "black", 0, 0);
         this.Bottom = new component(1000, 5, "black", 0, 495);
-        console.log(this.TheBall);
+        this.numberOfPlayers = 0;
 
+        this.getNextPlayerNumber  = function getNextPlayerNumber(){
+          return ++this.numberOfPlayers;
+        }
         this.update = function update() {
             if (collisonTest2(this.Top, this.TheBall)) {
                 reverseAngel(this.TheBall);
@@ -69,10 +72,10 @@ module.exports = {
             }
 
             if (playerAndDirection.player === 1) {
-                this.PlayerOneRed.speedY += speed;
+                this.PlayerOneRed.speedY = speed;
             }
             else if (playerAndDirection.player === 2) {
-                this.PlayerTwoBlue.speedY += speed;
+                this.PlayerTwoBlue.speedY = speed;
             }
             else {
                 console.log('error in playerDirection');
@@ -157,6 +160,3 @@ function reverseDirectionX(rect){
         rect.speedX = rect.speedX * -1;
     }
 }
-
-
-

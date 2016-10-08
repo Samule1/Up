@@ -10,11 +10,9 @@ var games = require('./pingpong.js');
 //Globals
 let connections = [];
 let activeGames = {};
-let playerCounter = 0;
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/Views');
-//app.use(express.static(__dirname+ '/Scripts'));
 app.use(express.static('Public'));
 //Routes
 app.get('/', function (req, res) {
@@ -132,12 +130,11 @@ io.sockets.on('connection', (socket) => {
                 //disconnect the socket here..
             }
             else {
-                playerCounter++;
                 activeGames[data.id].inputSockets[socket.id] = socket.id;
                 socket.roomId = data.id;
                 socket.type = 'input';
-                socket.player = playerCounter;
-                console.log('playerCounter = ' + playerCounter);
+                socket.player = activeGames[data.id].gameState.getNextPlayerNumber();
+                console.log('playerCounter = ' + socket.player);
                 for(var viewSocketId in activeGames[data.id].viewSockets){
                     connections[viewSocketId].emit('new player connected', data);
                 }

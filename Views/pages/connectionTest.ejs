@@ -30,11 +30,14 @@
               <br/>
               <input type="submit" class="btn btn-primary" value="Send message">
               <input id="quit" type="button" class="btn btn-danger" value="Disconnect">
-              <input id="Up" type="Up" class="btn btn-danger" value="Up">
-              <input id="Down" type="Down" class="btn btn-danger" value="Down">
             </div>
 
         </form>
+      </div>
+      <div id="controlBoard" class="col-md-4" style="display: none">
+        <input type="button" id="Up" type="Up" class="btn btn-primary" value="Up" style="width: 150px;">
+        </br>
+        <input type="button" id="Down" type="Down" class="btn btn-primary" value="Down" style="margin-top: 10px; width: 150px;">
       </div>
 
     </div>
@@ -50,6 +53,7 @@
       var $chat = $('#chat');
       var roomId = $('#roomBox').val().trim();
       var nick = $('#nickBox').val().trim();
+      var keys = [];
 
 
       socket.emit('register', {id: roomId, type: 'input', nick: nick });
@@ -60,19 +64,10 @@
         console.log('Up');
       });
 
-      $('#Down').click(function() {
+      /*$('#Down').click(function() {
         socket.emit('new move', {move: 'D0'});
         console.log('Down');
-      });
-/*
-      $messageForm.Up(function(e){
-        socket.emit('new move', 'U0');
-      });
-
-      $messageForm.Down(function(e){
-        socket.emit('new move', 'D0');
-      });
-*/
+      });*/
 
       $messageForm.submit(function(e){
         e.preventDefault();
@@ -88,8 +83,44 @@
         if(data.success){
           $('#cardContainer').load('/inputCard?roomId='+roomId+'&nick='+nick, function(){
             $('#messageForm').css('display', '');
+            $('#controlBoard').css('display', '');
           });
           $('#form').remove();
+
+
+          document.addEventListener("keydown", function(event){
+            if(event.which == 40 && keys[event.which] == false){
+              keys[event.which] = true;
+              $('#Down').toggleClass('btn-success');
+              if(!event.shiftKey){
+                socket.emit('new move', {move: 'D0'});
+              }
+              else {
+                socket.emit('new move', {move: 'D1'});
+              }
+            }
+            else if (event.which == 38 && keys[event.which] == false) {
+              keys[event.which] = true;
+              $('#Up').toggleClass('btn-success');
+              if(!event.shiftKey){
+                socket.emit('new move', {move: 'U0'});
+              }
+              else {
+                socket.emit('new move', {move: 'U1'});
+              }
+            }
+          });
+          document.addEventListener("keyup", function(event){
+            if(event.which == 40){
+              keys[event.which] = false;
+              $('#Down').removeClass('btn-success');
+            }
+            else if (event.which == 38) {
+              keys[event.which] = false;
+              $('#Up').removeClass('btn-success');
+            }
+            socket.emit('new move', {move: 'C'});
+          });
         }
       });
 
