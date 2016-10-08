@@ -6,7 +6,7 @@ var io = require('socket.io').listen(server);
 var helper = require('./helpers.js');
 var models = require('./models.js');
 var games = require('./pingpong.js');
-require('./Routes/routes_get.js')(app);
+require( __dirname + '/Routes/routes_get.js')(app);
 
 //Globals
 let connections = [];
