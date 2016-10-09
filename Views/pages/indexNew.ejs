@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../partials/head %>
+    <style media="screen">
+      .rcorners1 {
+        border-radius: 25px;
+        border: 5px solid #ffffff;
+      }
+      .buttonContainer {
+        text-align: center;
+        padding: 10px;
+      }
+      td {
+        text-align: center;
+      }
+      .btn {
+        margin: 5px;
+      }
+      html body {
+        margin: 0;
+        height: 100%;
+      }
+      .footer{
+        border-top: 5px solid #ffffff;
+        border-bottom: 5px solid #ffffff;
+        background-color: #32cdfd;
+        margin-top: 10%;
+        text-align: center;
+      }
+
+      h2 {
+        font: 400 40px/0.8 'Cookie', Helvetica, sans-serif;
+        color: #fff;
+        text-shadow: 4px 4px 3px rgba(0,0,0,0.1);
+      }
+      p {
+       color: #fff;
+       font: normal 18px sans-serif;
+      }
+     .footer-links a{
+        display:inline-block;
+        text-decoration: none;
+        color: #fff;
+      }
+      .menubutton {
+        width: 150px;
+      }
+    </style>
+  </head>
+  <body style="background-color: #f44292">
+      <div class="col-md-5" style="padding-left: 0px;">
+        <img src="/Images/Logo.png" alt="" style="float: left; width: 301px; height: 184px;">
+      </div>
+      <div class="col-md-2 rcorners1" style="background-color: #32cdfd; margin-top: 10%;">
+        <div class="buttonContainer">
+          <table style="width: 100%">
+            <tbody>
+              <tr>
+                <td><input type="button" class="btn btn-info menubutton" name="name" value="Stage a new game" onclick="window.location='/stage';"></td>
+              </tr>
+              <tr>
+                <td><input type="button" class="btn btn-info menubutton" name="name" value="Connection test" onclick="window.location='/connectionTest';"></td>
+              </tr>
+              <tr>
+                <td><input type="button" class="btn btn-info menubutton" name="name" value="Andriod test" onclick="window.location='/androidtest';"></td>
+              </tr>
+              <tr>
+                <td><input type="button" class="btn btn-info menubutton" name="name" value="Watch a game"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-5"></div>
+      <div class="col-md-12 footer">
+        <span><h2>Cloud gaming services</h2></span>
+        <p class="footer-links" style="margin-bottom: 30px;">
+  				<a href="#">Hampus Carlsson</a>
+  				·
+  				<a href="#">Lolita Mageramova</a>
+  				·
+  				<a href="#">Marcus Kärrman</a>
+  				·
+  				<a href="#">Tim Svensson</a>
+  			</p>
+
+      </div>
+
+  </body>
+
+</html>

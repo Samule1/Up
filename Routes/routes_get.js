@@ -3,7 +3,7 @@ let helper = require(__dirname + '/../helpers.js');
 module.exports = function(app){
   //Routes
   app.get('/', function (req, res) {
-      res.render('pages/index');
+      res.render('pages/indexNew');
   });
 
   app.get('/game', function (req, res) {
