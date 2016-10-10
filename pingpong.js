@@ -23,10 +23,12 @@ module.exports = {
             if (collisonTest2(this.Bottom, this.TheBall)) {
                 reverseAngel(this.TheBall);
             }
-            if ((this.PlayerOneRed.y + this.PlayerOneRed.speedY) > 0 && (this.PlayerOneRed.y + this.PlayerOneRed.speedY) < 500 - 130) {
+            if ((this.PlayerOneRed.y + this.PlayerOneRed.speedY) > 0 && (this.PlayerOneRed.y + this.PlayerOneRed.speedY) < 500 - 130
+            && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) > 0 && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) < 400 ) {
                 this.PlayerOneRed.newPos();
             }
-            if ((this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) > 0 && (this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) < 500 - 130) {
+            if ((this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) > 0 && (this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) < 500 - 130
+                && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) > 600 && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) < 970) {
                 this.PlayerTwoBlue.newPos();
             }
             this.TheBall.newPos();
@@ -56,34 +58,79 @@ module.exports = {
             //this.interval.
         }
         this.setDirection = function setDirection(playerAndDirection) {
-            let speed = 0;
+            let speedY = 0;
+            let speedX = 0;
             if (playerAndDirection.move === 'U0') {
-                speed = -2;
+                speedY = -2;
             }
             if (playerAndDirection.move === 'U1') {
-                speed = -4;
+                speedY = -4;
             }
             if (playerAndDirection.move === 'D0') {
-                speed = 2;
+                speedY = 2;
             }
             if (playerAndDirection.move === 'D1') {
-                speed = 4;
+                speedY = 4;
+            }
+            if (playerAndDirection.move === 'L0'){
+                speedX = -2
+            }
+            if (playerAndDirection.move === 'L1'){
+                speedX = -4;
+            }
+            if (playerAndDirection.move === 'R0'){
+                speedX = 2;
+            }
+            if (playerAndDirection.move === 'R1'){
+                speedX = 4;
+            }
+            if (playerAndDirection.move === 'LD0'){
+                speedX = -2;
+                speedY = 2;
+            }
+            if (playerAndDirection.move === 'LD1'){
+                speedX = -4;
+                speedY = 4;
+            }
+            if (playerAndDirection.move === 'RD0'){
+                speedX = 2;
+                speedY = 2;
+            }
+            if (playerAndDirection.move === 'RD1'){
+                speedX = 4;
+                speedY = 4;
+            }
+            if (playerAndDirection.move === 'RU0'){
+                speedX = 2;
+                speedY = -2;
+            }
+            if (playerAndDirection.move === 'RU1'){
+                speedX = 4;
+                speedY = -4;
+            }
+            if (playerAndDirection.move === 'LU0'){
+                speedX = -2;
+                speedY = -2;
+            }
+            if (playerAndDirection.move === 'LU1'){
+                speedX = -4;
+                speedY = -4;
             }
 
+
             if (playerAndDirection.player === 1) {
-                this.PlayerOneRed.speedY = speed;
+                this.PlayerOneRed.speedY = speedY;
+                this.PlayerOneRed.speedX = speedX;
             }
             else if (playerAndDirection.player === 2) {
-                this.PlayerTwoBlue.speedY = speed;
+                this.PlayerTwoBlue.speedY = speedY;
+                this.PlayerTwoBlue.speedX = speedX;
             }
             else {
                 console.log('error in playerDirection');
             }
         }
-
-
     }
-
 }
 
 function component(width, height, color, x, y) {
