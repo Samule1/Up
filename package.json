@@ -14,6 +14,7 @@
     "socket.io": "*",
     "express": "*",
     "es6-shim":"*",
-    "ejs": "*"
+    "ejs": "*",
+    "body-parser": "*"
   }
 }
