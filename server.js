@@ -6,7 +6,7 @@ var io = require('socket.io').listen(server);
 var helper = require('./helpers.js');
 var models = require('./models.js');
 var games = require('./pingpong.js');
-require( __dirname + '/Routes/routes_get.js')(app);
+var bodyParser = require('body-parser')
 
 //Globals
 let connections = [];
@@ -15,6 +15,9 @@ let activeGames = {};
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/Views');
 app.use(express.static('Public'));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+var router = new require( __dirname + '/Routes/routes_get.js').Router(app,connections,activeGames);
 
 
 server.listen(process.env.PORT || 3000);

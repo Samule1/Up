@@ -10,6 +10,8 @@
       .buttonContainer {
         text-align: center;
         padding: 10px;
+        background-color: #028db8;
+        margin-top: 80%;
       }
       td {
         text-align: center;
@@ -24,7 +26,7 @@
       .footer{
         border-top: 5px solid #ffffff;
         border-bottom: 5px solid #ffffff;
-        background-color: #32cdfd;
+        background-color: #028db8;
         margin-top: 10%;
         text-align: center;
       }
@@ -48,12 +50,12 @@
       }
     </style>
   </head>
-  <body style="background-color: #f44292">
+  <body style="background-color: #01607d">
       <div class="col-md-5" style="padding-left: 0px;">
         <img src="/Images/Logo.png" alt="" style="float: left; width: 301px; height: 184px;">
       </div>
-      <div class="col-md-2 rcorners1" style="background-color: #32cdfd; margin-top: 10%;">
-        <div class="buttonContainer">
+      <div class="col-md-2">
+        <div class="buttonContainer rcorners1">
           <table style="width: 100%">
             <tbody>
               <tr>
@@ -66,12 +68,19 @@
                 <td><input type="button" class="btn btn-info menubutton" name="name" value="Android test" onclick="window.location='/androidtest';"></td>
               </tr>
               <tr>
-                <td><input type="button" class="btn btn-info menubutton" name="name" value="Watch a game"></td>
+                <td><input type="button" id="watch" class="btn btn-info menubutton" name="name" value="Watch a game"></td>
               </tr>
             </tbody>
           </table>
         </div>
+        <div id="enterRoom" class="rcorners1 buttonContainer" style="margin-top: 5px; display: none;">
+          <form id="roomForm" action="#">
+            <input class="form-control" style="text-align: center;"type="text" name="" id="roomInput" placeholder="Enter a room id">
+          </form>
+        </div>
+
       </div>
+
       <div class="col-md-5"></div>
       <div class="col-md-12 footer">
         <span><h2>Cloud gaming services</h2></span>
@@ -86,6 +95,37 @@
   			</p>
 
       </div>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('#watch').click(function(){
+        if($('#enterRoom').css('display') == 'none'){
+          $('#enterRoom').slideDown();
+        }
+        else {
+          $('#enterRoom').slideUp();
+        }
+      });
+      $('#roomInput').keypress(function(e){
+        if(e.which == 13){
+          $('#roomForm').submit(function(event){
+            var roomId = $('#roomInput').val();
+            console.log(roomId);
+            $.ajax({
+              type: "POST",
+              url: '/findRoom',
+              data: {room: roomId},
+              success: function(){
+                console.log('worked')
+              },
+              dataType: 'json'
+            })
+            e.preventDefault();
+          });
+        }
+      });
+
+    });
+  </script>
 
   </body>
 
