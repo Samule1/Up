@@ -35,7 +35,7 @@ io.sockets.on('connection', (socket) => {
     connections[socket.id] = socket;
     connections.length++;
     console.log('Connected: %s sockets connected', connections.length);
-
+    var timer = setInterval(pingFunc, 1000);
 
     //Disconnect
     socket.on('disconnect', (data)=> {

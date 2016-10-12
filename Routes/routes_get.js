@@ -57,5 +57,9 @@ module.exports = {
         res.setHeader('Content-Type', 'application/json');
         res.send(JSON.stringify({ success: true }));
       });
+
+      app.get('/debugGame', function (req, res) {
+          res.render('pages/pingpong');
+      });
   }
 }
