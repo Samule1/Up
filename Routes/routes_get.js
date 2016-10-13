@@ -52,10 +52,19 @@ module.exports = {
 
       });
 
+      app.get('/watch', function(req, res){
+        let roomId = req.query.roomId;
+        res.render('pages/watch', {data: roomId}); 
+      });
+
       app.post('/findRoom', function(req, res){
         console.log(req.body.room)
+        let roomId = req.body.room;
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify({ success: true }));
+        if(connections[roomId] != undefined){
+            res.send(JSON.stringify({ success: true }));
+        }
+        res.send(JSON.stringify({ success: false }));
       });
 
       app.get('/debugGame', function (req, res) {
