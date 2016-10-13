@@ -1,3 +1,4 @@
+var lastPackage = 0;
 
 function startGame() {
     myGameArea.start();
@@ -7,7 +8,7 @@ function startGame() {
     TheBall.speedX = 2;
     Top = new component(1000, 5, "black", 0, 0);
     Bottom = new component(1000, 5, "black", 0, 495);
-    var lastPackage = 0;
+
     //var increaseGameSpeed = setInterval(myTimer, 10000);
 }
 
@@ -23,7 +24,7 @@ function updatePositons(data){
     lastPackage = data.timeStamp;
   }
   else{
-    console.log('lost packet..'); 
+    console.log('lost packet..');
   }
 
 }
