@@ -10,18 +10,18 @@
     }
 </style>
 
-<body style="margin-top: 6%; background-color: #01607d">
-<div class="col-md-12">
+<body style="background-color: #01607d">
+<div class="col-md-12" style="margin-top: 6%">
     <table style="width: inherit">
         <tbody>
         <tr>
-            <td style="width: 7%">
+            <td style="width: 7%; text-align: center">
                 <div>
                     <!--
                     <label>Player One</label>
                     <label id="playerOneName"></label>
                     -->
-                    <label id="playerOneScore" style="text-align: center;">1</label>
+                    <label id="playerOneScoreLabel" style="text-align: center; font-size: xx-large">0</label>
                 </div>
 
             </td>
@@ -35,7 +35,7 @@
                     <label>Player Two</label>
                     <label id="playerTwoName"></label>
                     -->
-                    <label id="playerTwoScore" style="text-align: center;">3</label>
+                    <label id="playerTwoScoreLabel" style="text-align: center; font-size: xx-large">0</label>
                 </div>
             </td>
         </tr>
@@ -61,15 +61,18 @@
 
 <script>
 
+    var playerOneScore = 0;
+    var playerTwoScore = 0;
 
     function startGame() {
         myGameArea.start();
-        PlayerOneRed = new component(30, 130, "red", 20, 200);
-        PlayerTwoBlue = new component(30, 130, "blue", 940, 200);
+        PlayerOneRed = new component(30, 130, "black", 20, 200);
+        PlayerTwoBlue = new component(30, 130, "black", 940, 200);
         TheBall = new component(20,20, 'black', 480, 230);
         TheBall.riktning = [0,1,0,0]; // vänster, höger, upp, ner
         Top = new component(1000, 5, "black", 0,0);
         Bottom = new component(1000, 5, "black", 0, 495 );
+        Middle = new component(6, 25, "black", 497, 0);
         this.TheBall.speedX = 2;
     }
 
@@ -81,7 +84,7 @@
             this.canvas.height = 500    ;
             this.context = this.canvas.getContext("2d");
             document.getElementById('canvasGame').appendChild(this.canvas);
-            this.interval = setInterval(updateGameArea, 10);
+            this.interval = setInterval(updateGameArea, 15);
             window.addEventListener('keydown', function (e) {
                 myGameArea.keys = (myGameArea.keys || []);
                 myGameArea.keys[e.keyCode] = true;
@@ -183,10 +186,10 @@
         PlayerTwoBlue.speedY = 0;
         PlayerTwoBlue.speedX = 0;
 
-        if (myGameArea.keys && myGameArea.keys[38]) {PlayerTwoBlue.speedY = -3; }
-        if (myGameArea.keys && myGameArea.keys[40]) {PlayerTwoBlue.speedY = 3; }
-        if (myGameArea.keys && myGameArea.keys[87]) {PlayerOneRed.speedY = -3; }
-        if (myGameArea.keys && myGameArea.keys[83]) {PlayerOneRed.speedY = 3; }
+        if (myGameArea.keys && myGameArea.keys[38]) {PlayerTwoBlue.speedY = -2; }
+        if (myGameArea.keys && myGameArea.keys[40]) {PlayerTwoBlue.speedY = 2; }
+        if (myGameArea.keys && myGameArea.keys[87]) {PlayerOneRed.speedY = -2; }
+        if (myGameArea.keys && myGameArea.keys[83]) {PlayerOneRed.speedY = 2; }
 
 
         if (collisonTest2(this.Top, this.TheBall)) {
@@ -208,9 +211,21 @@
         newDirection(this.PlayerOneRed, this.TheBall);
         newDirection(this.PlayerTwoBlue, this.TheBall);
 
-        if (this.TheBall.x < 0 || this.TheBall.x > 1000) {
-            this.TheBall.x = 500;
+        if (this.TheBall.x < 0) {
+            this.TheBall.x = 480;
+            this.TheBall.y = 230;
             this.TheBall.speedX = 2;
+            playerOneScore++;
+            console.log(playerOneScore);
+            $('#playerOneScoreLabel').text(playerOneScore);
+        }
+        else if(this.TheBall.x > 1000){
+            this.TheBall.x = 480;
+            this.TheBall.y = 230;
+            this.TheBall.speedX = 2;
+            playerTwoScore++;
+            console.log(playerTwoScore);
+            $('#playerTwoScoreLabel').text(playerTwoScore);
         }
         TheBall.newPos();
         PlayerOneRed.update();
@@ -218,6 +233,11 @@
         TheBall.updateCircle();
         Top.update();
         Bottom.update();
+        for(var i=0; i<10; i++){
+            Middle.update();
+            Middle.y += 50;
+        }
+        Middle.y = 12;
     }
 	
 	//ladda upp
