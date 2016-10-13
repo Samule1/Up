@@ -111,6 +111,7 @@ io.sockets.on('connection', (socket) => {
 
                 //Special for andriodtester..
                 if(data.nick === testare){
+                  console.log('testare!')
                   socket.isTesting = true;
                 }
 
@@ -121,8 +122,8 @@ io.sockets.on('connection', (socket) => {
 
   //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...
   socket.on('feedback', (data)=>{
-    for(let socketId in activeGames[socket.roomId].viewSockets){
-      connections[socketId].emit('move received', data); 
+    for(let socketId in activeGames[socket.roomId].inputSockets){
+      connections[socketId].emit('move received', data);
     }
   });
 
@@ -136,7 +137,7 @@ io.sockets.on('connection', (socket) => {
         data.player = socket.player;
         activeGames[socket.roomId].gameState.setDirection(data);
 
-        if(socket.isTesting){
+        if(socket.isTesting === true){
           for(let socketId in activeGames[socket.roomId].viewSockets){
             connections[socketId].emit('new move', data);
           }
