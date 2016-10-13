@@ -67,6 +67,8 @@ io.sockets.on('connection', (socket) => {
         //Checking if he socket is a browser or phone
         if (data.type === 'output') {
 
+          //Is the viewSocket starting the game ir joining as observer?
+          if(activeGames[data.id] === undefined){
             //Creating a new Game-object
             let game = new models.Game();
             game.viewSockets[socket.id] = socket.id;
@@ -81,6 +83,13 @@ io.sockets.on('connection', (socket) => {
             //Here maybe an instance of the game should be created..
             activeGames[data.id].gameState = new games.PingpongGame(activeGames[data.id], connections);
             //activeGames[data.id].gameState.initGame();
+          }
+          else {
+            activeGames[data.id].viewSockets[socket.id] = socket.id;
+            console.log('Connected new observer socket!');
+          }
+
+
         }
 
         else if (data.type === 'input') {

@@ -45,6 +45,7 @@ module.exports = {
                 ball: {x: this.TheBall.x, y: this.TheBall.y}
             };
             for (var socketId in game.viewSockets) {
+                console.log(game.viewSockets.length);
                 connections[socketId].emit('updateGameState', gameState)
             }
         }
