@@ -110,12 +110,11 @@ io.sockets.on('connection', (socket) => {
                 socket.emit('new message', {msg: 'You are connected as input!', success: true});
 
                 //Special for andriodtester..
-                /*
-                if(data.nick === testare){
+                if(data.nick === 'testare'){
                   console.log('testare!')
                   socket.isTesting = true;
                 }
-                */
+
 
                 console.log('Registred new input to room: ' + data.id);
             }
