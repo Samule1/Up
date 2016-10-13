@@ -53,7 +53,7 @@ module.exports = {
         }
         this.start = function start() {
             let t = this;
-            this.interval = setInterval(function(){t.update()}, 500);
+            this.interval = setInterval(function(){t.update()}, 10);
         }
         this.stop = function stop() {
             //this.interval.
