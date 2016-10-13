@@ -109,6 +109,11 @@ io.sockets.on('connection', (socket) => {
                 }
                 socket.emit('new message', {msg: 'You are connected as input!', success: true});
 
+                //Special for andriodtester..
+                if(data.nick === testare){
+                  socket.isTesting = true;
+                }
+
                 console.log('Registred new input to room: ' + data.id);
             }
         }
@@ -116,9 +121,9 @@ io.sockets.on('connection', (socket) => {
 
   //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...
   socket.on('feedback', (data)=>{
-    activeGames[data.roomId].inputSockets.forEach(function(socket){
-      socket.emit('move received');
-    });
+    for(let socketId in activeGames[socket.roomId].viewSockets){
+      connections[socketId].emit('move received', data); 
+    }
   });
 
   //Disconnect input
@@ -130,6 +135,12 @@ io.sockets.on('connection', (socket) => {
     socket.on('new move', (data)=>{
         data.player = socket.player;
         activeGames[socket.roomId].gameState.setDirection(data);
+
+        if(socket.isTesting){
+          for(let socketId in activeGames[socket.roomId].viewSockets){
+            connections[socketId].emit('new move', data);
+          }
+        }
     });
 
     socket.on('start game', (data)=>{
