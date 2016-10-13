@@ -48,6 +48,14 @@ function component(width, height, color, x, y) {
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
+    this.updateCircle = function() {
+        ctx = myGameArea.context;
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(this.x + 10, this.y + 10, 10, 0 * Math.PI, 2 * Math.PI);
+        ctx.stroke();
+        ctx.fill();
+    }
     this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY;
@@ -58,7 +66,7 @@ function updateGameArea() {
     myGameArea.clear();
     PlayerOneRed.update();
     PlayerTwoBlue.update();
-    TheBall.update();
+    TheBall.updateCircle();
     Top.update();
     Bottom.update();
 }
