@@ -102,8 +102,6 @@
             setTimeout(function(){
               $('#gFrame').load('/gameframe', function(){
                 $('#loader').css('display', 'none');
-                  //style="margin-top: 6%; background-color: #01607d">
-                  $('body').css('background-color', '#01607d');
                   startGame();
                   socket.emit('start game');
               });
