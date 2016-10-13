@@ -66,6 +66,8 @@
       var data = '<%= data %>'
       var playerLimit = '<%= playerLimit %>';
       var connectedPlayers = 0;
+      var playerOneNick;
+        var playerTwoNick;
       console.log(data);
 
       //Regestring the socket..
@@ -77,11 +79,13 @@
         if(connectedPlayers == 0){
           $('#playerContainer1').html('<div class="well text-center">'+data.nick+'</div>');
           connectedPlayers++;
+            playerOneNick = data.nick;
           console.log(connectedPlayers);
         }
         else{
           $('#playerContainer2').html('<div class="well text-center">'+data.nick+'</div>');
           connectedPlayers++;
+            playerTwoNick = data.nick;
             console.log(connectedPlayers);
         }
         if(connectedPlayers == playerLimit){
@@ -98,6 +102,8 @@
             setTimeout(function(){
               $('#gFrame').load('/gameframe', function(){
                 $('#loader').css('display', 'none');
+                  //style="margin-top: 6%; background-color: #01607d">
+                  $('body').css('background-color', '#01607d');
                   startGame();
                   socket.emit('start game');
               });

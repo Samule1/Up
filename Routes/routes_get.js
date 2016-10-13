@@ -66,5 +66,9 @@ module.exports = {
         }
         res.send(JSON.stringify({ success: false }));
       });
+
+      app.get('/debugGame', function (req, res) {
+          res.render('pages/pingpong');
+      });
   }
 }
