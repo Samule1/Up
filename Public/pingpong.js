@@ -7,10 +7,12 @@ function startGame() {
     TheBall.speedX = 2;
     Top = new component(1000, 5, "black", 0, 0);
     Bottom = new component(1000, 5, "black", 0, 495);
+    var lastPackage = 0;
     //var increaseGameSpeed = setInterval(myTimer, 10000);
 }
 
 function updatePositons(data){
+  if(data.timeStamp > lastPackage){
     PlayerOneRed.x = data.p1.x;
     PlayerOneRed.y = data.p1.y;
     PlayerTwoBlue.x = data.p2.x;
@@ -18,6 +20,12 @@ function updatePositons(data){
     TheBall.x = data.ball.x;
     TheBall.y = data.ball.y;
     updateGameArea();
+    lastPackage = data.timeStamp;
+  }
+  else{
+    console.log('lost packet..'); 
+  }
+
 }
 
 

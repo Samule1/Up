@@ -44,7 +44,8 @@ module.exports = {
             let gameState = {
                 p1: {x: this.PlayerOneRed.x, y: this.PlayerOneRed.y},
                 p2: {x: this.PlayerTwoBlue.x, y: this.PlayerTwoBlue.y},
-                ball: {x: this.TheBall.x, y: this.TheBall.y}
+                ball: {x: this.TheBall.x, y: this.TheBall.y},
+                timeStamp: new Date().getTime()
             };
             for (var socketId in game.viewSockets) {
                 connections[socketId].emit('updateGameState', gameState)
