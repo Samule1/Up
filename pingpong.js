@@ -20,12 +20,10 @@ module.exports = {
             if (collisonTest2(this.Top, this.TheBall)) {
                 reverseAngel(this.TheBall);
             }
-            if (collisonTest2(this.Bottom, this.TheBall)) {
+            else if (collisonTest2(this.Bottom, this.TheBall)) {
                 reverseAngel(this.TheBall);
             }
-            if ((this.PlayerOneRed.y + this.PlayerOneRed.speedY) > 0 && (this.PlayerOneRed.y + this.PlayerOneRed.speedY) < 500 - 130
-            && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) > 0 && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) < 400 ) {
-                this.PlayerOneRed.newPos();
+
             }
             if ((this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) > 0 && (this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) < 500 - 130
                 && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) > 600 && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) < 970) {
@@ -34,7 +32,10 @@ module.exports = {
             this.TheBall.newPos();
             newDirection(this.PlayerOneRed, this.TheBall);
             newDirection(this.PlayerTwoBlue, this.TheBall);
-
+            if ((this.PlayerOneRed.y + this.PlayerOneRed.speedY) > 0 && (this.PlayerOneRed.y + this.PlayerOneRed.speedY) < 500 - 130
+                && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) > 0 && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) < 400 ) {
+                this.PlayerOneRed.newPos();
+            }
             if (this.TheBall.x < 0 || this.TheBall.x > 1000) {
                 this.TheBall.x = 500;
                 this.TheBall.speedX = 4;
@@ -49,7 +50,7 @@ module.exports = {
             for (var socketId in game.viewSockets) {
                 connections[socketId].emit('updateGameState', gameState)
             }
-        }
+
         this.start = function start() {
             var t = this;
             this.interval = setInterval(function(){t.update()}, 20);

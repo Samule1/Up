@@ -21,7 +21,7 @@
                     <label>Player One</label>
                     <label id="playerOneName"></label>
                     -->
-                    <label id="playerOneScoreLabel" style="text-align: center; font-size: xx-large">0</label>
+                    <label id="playerOneScoreLabel" style="text-align: center; font-size: xx-large;">0</label>
                 </div>
 
             </td>
@@ -63,6 +63,7 @@
 
     var playerOneScore = 0;
     var playerTwoScore = 0;
+    var BallIncreaseSpeed = 1;
 
     function startGame() {
         myGameArea.start();
@@ -73,7 +74,7 @@
         Top = new component(1000, 5, "black", 0,0);
         Bottom = new component(1000, 5, "black", 0, 495 );
         Middle = new component(6, 25, "black", 497, 0);
-        this.TheBall.speedX = 2;
+        this.TheBall.speedX = 8;
     }
 
     var myGameArea = {
@@ -84,7 +85,7 @@
             this.canvas.height = 500    ;
             this.context = this.canvas.getContext("2d");
             document.getElementById('canvasGame').appendChild(this.canvas);
-            this.interval = setInterval(updateGameArea, 15);
+            this.interval = setInterval(updateGameArea, 10);
             window.addEventListener('keydown', function (e) {
                 myGameArea.keys = (myGameArea.keys || []);
                 myGameArea.keys[e.keyCode] = true;
@@ -118,6 +119,11 @@
             ctx.arc(this.x+10,this.y+10,10,0*Math.PI,2*Math.PI);
             ctx.stroke();
             ctx.fill();
+        }
+        this.clearObj = function(){
+            ctx = myGameArea.context;
+            console.log('in clearobj');
+            ctx = ctx.clearRect(this.x, this.y, this.width, this.height);
         }
         this.newPos = function() {
             this.x += this.speedX;
@@ -179,8 +185,15 @@
         }
     }
 
+
+    function isObjMoved(obj){
+        if(obj.speedX > 0|| obj.speedY > 0){
+            return true;
+        }
+    }
+
     function updateGameArea() {
-        myGameArea.clear();
+        //myGameArea.clear();
         PlayerOneRed.speedX = 0;
         PlayerOneRed.speedY = 0;
         PlayerTwoBlue.speedY = 0;
@@ -207,7 +220,7 @@
                 && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) > 600 && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) < 970) {
             this.PlayerTwoBlue.newPos();
         }
-        this.TheBall.newPos();
+        //this.TheBall.newPos();
         newDirection(this.PlayerOneRed, this.TheBall);
         newDirection(this.PlayerTwoBlue, this.TheBall);
 
@@ -227,10 +240,19 @@
             console.log(playerTwoScore);
             $('#playerTwoScoreLabel').text(playerTwoScore);
         }
+        console.log("X : " + TheBall.x + " + " + TheBall.y);
+        if(isObjMoved(PlayerOneRed)){
+            PlayerOneRed.clearObj();
+            PlayerOneRed.update();
+        }
+        if(isObjMoved(PlayerTwoBlue)){
+            PlayerTwoBlue.clearObj();
+            PlayerTwoBlue.update();
+        }
+        TheBall.clearObj();
         TheBall.newPos();
-        PlayerOneRed.update();
-        PlayerTwoBlue.update();
-        TheBall.updateCircle();
+        TheBall.update();
+        /*
         Top.update();
         Bottom.update();
         for(var i=0; i<10; i++){
@@ -238,6 +260,7 @@
             Middle.y += 50;
         }
         Middle.y = 12;
+        */
     }
 	
 	//ladda upp
