@@ -99,7 +99,7 @@
       })
 
       //Registering some comminucation events
-      socket.on('new message', function(data){
+      socket.on('new move', function(data){
 
         $('#up').removeClass('btn-danger');
         $('#down').removeClass('btn-danger');
@@ -120,7 +120,7 @@
         $('#rightup').removeClass('btn-warning');
 
         $('#center').removeClass('btn-success');
-        switch(data.msg){
+        switch(data.move){
           case 'L0':
             $('#left').toggleClass('btn-warning');
             break;
