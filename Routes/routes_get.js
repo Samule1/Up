@@ -70,5 +70,9 @@ module.exports = {
       app.get('/debugGame', function (req, res) {
           res.render('pages/pingpong');
       });
+
+      app.get('/test', function(reg, res){
+         res. render('pages/testtest');
+      });
   }
 }
