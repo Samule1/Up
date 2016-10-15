@@ -100,6 +100,8 @@ io.sockets.on('connection', (socket) => {
           activeGames[data.id].meta.isActive = true;
         }
         else {
+          socket.roomId = data.id;
+          socket.type = 'output';
           activeGames[data.id].viewSockets[socket.id] = socket.id;
           console.log('Connected new observer socket!');
         }
