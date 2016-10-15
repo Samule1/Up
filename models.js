@@ -2,6 +2,7 @@ module.exports = {
   Game: function(){
     this.viewSockets = [],
     this.inputSockets = [],
-    this.gameState = {}
+    this.gameState = {},
+    this.meta = {}
   }
 }

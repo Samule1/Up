@@ -94,6 +94,10 @@
         $message.val('');
       });
 
+      socket.on('pingding', function(data){
+        socket.emit('ping response');
+      });
+
       socket.on('new message', function(data){
         console.log(data.msg);
         $chat.html("");

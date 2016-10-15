@@ -1,0 +1,24 @@
+<div class="">
+  <h2>Below are all the connected rooms</h2>
+</div>
+<% for(var i = 0; i < sockets.length; i++){ %>
+  <div class="connectionBox">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <p><%= sockets[i] %></p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p id="pinglabel-<%= sockets[i] %>">-</p>
+          </td>
+        </tr>
+        <tr>
+          <td><input type="button" class="btn" value="Ping!" onclick="pingding('<%=sockets[i]%>')"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <%}%>
