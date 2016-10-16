@@ -118,8 +118,14 @@
               type: "POST",
               url: '/findRoom',
               data: {room: roomId},
-              success: function(){
-                window.location.href = '/watch?roomId=' + roomId;
+              success: function(response){
+                if(response.success){
+                  window.location.href = '/watch?roomId=' + roomId;
+                }
+                else {
+                  $('#roomInput').val('No room found..');
+                }
+
               },
               dataType: 'json'
             })

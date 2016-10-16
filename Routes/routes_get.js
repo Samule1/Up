@@ -58,17 +58,16 @@ module.exports = {
       });
 
       app.post('/findRoom', function(req, res){
-        console.log(req.body.room)
         let roomId = req.body.room;
         res.setHeader('Content-Type', 'application/json');
-        if(connections[roomId] != undefined){
+        if(activeGames[roomId] != undefined){
             res.send(JSON.stringify({ success: true }));
         }
         res.send(JSON.stringify({ success: false }));
       });
 
       app.get('/debugGame', function (req, res) {
-          res.render('pages/pingpong');
+          res.render('pages/pingpongDebug');
       });
 
       app.get('/godView', function(req, res){
