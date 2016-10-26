@@ -1,11 +1,11 @@
-<canvas id="ctx" width="500" height="500" style="border:1px solid #000000;"></canvas>
+<canvas id="ctx" width="1000" height="500" style="border:1px solid #000000;"></canvas>
 
 <script>
     var ctx = document.getElementById("ctx").getContext("2d");
     ctx.font = '30px Arial';
 
     var HEIGHT = 500;
-    var WIDTH = 500;
+    var WIDTH = 1000;
     var timeWhenGameStarted = Date.now();   //return time in ms
 
     var frameCount = 0;
@@ -256,7 +256,7 @@
 
     startNewGame();
 
-    setInterval(update,40);
+    setInterval(update,20);
 
 
 

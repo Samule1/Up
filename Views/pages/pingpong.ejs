@@ -63,7 +63,7 @@
 
     var playerOneScore = 0;
     var playerTwoScore = 0;
-    var BallIncreaseSpeed = 4;
+    var BallIncreaseSpeed = 8;
 
     function startGame() {
         myGameArea.start();
@@ -91,7 +91,7 @@
             this.canvas.height = 500    ;
             this.context = this.canvas.getContext("2d");
             document.getElementById('canvasGame').appendChild(this.canvas);
-            this.interval = setInterval(updateGameArea, 10);
+            this.interval = setInterval(updateGameArea, 20);
             window.addEventListener('keydown', function (e) {
                 myGameArea.keys = (myGameArea.keys || []);
                 myGameArea.keys[e.keyCode] = true;
@@ -157,12 +157,12 @@
             var interval = rect1.height/5;
             if(mid < (rect1.y + interval) && mid >= rect1.y){  //rect2.x
                 reverseDirectionX(rect2);
-                rect2.speedY = -2;
+                rect2.speedY = BallIncreaseSpeed * -1;
                 rect1.collison = true;
             }
             if(mid > (rect1.y +interval)  && mid <= (rect1.y + interval*2)){
                 reverseDirectionX(rect2);
-                rect2.speedY = -1;
+                rect2.speedY = BallIncreaseSpeed/2 * -1;
                 rect1.collison = true;
             }
             if(mid > (rect1.y + interval*2) && mid <= (rect1.y + interval*3)){
@@ -172,12 +172,12 @@
             }
             if(mid > (rect1.y + interval*3) && mid <= (rect1.y + interval*4)){
                 reverseDirectionX(rect2);
-                rect2.speedY = 1;
+                rect2.speedY = BallIncreaseSpeed/2;
                 rect1.collison = true;
             }
             if(mid > (rect1.y + interval*4) && mid <= (rect1.y +interval*5)){
                 reverseDirectionX(rect2);
-                rect2.speedY = 2;
+                rect2.speedY = BallIncreaseSpeed;
                 rect1.collison = true;
             }
         }
