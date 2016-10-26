@@ -54,14 +54,13 @@ module.exports = {
 
       app.get('/watch', function(req, res){
         let roomId = req.query.roomId;
-        res.render('pages/watch', {data: roomId}); 
+        res.render('pages/watch', {data: roomId});
       });
 
       app.post('/findRoom', function(req, res){
-        console.log(req.body.room)
         let roomId = req.body.room;
         res.setHeader('Content-Type', 'application/json');
-        if(connections[roomId] != undefined){
+        if(activeGames[roomId] != undefined){
             res.send(JSON.stringify({ success: true }));
         }
         res.send(JSON.stringify({ success: false }));
@@ -70,6 +69,45 @@ module.exports = {
       app.get('/debugGame', function (req, res) {
           res.render('pages/pingpong');
       });
+
+      app.get('/godView', function(req, res){
+        res.render('pages/godView');
+      });
+
+      app.get('/connectedRooms', function(req, res){
+        let outputSockets = [];
+        for(let socketId in connections){
+          if(connections[socketId].type === 'output')
+            outputSockets.push(connections[socketId].id);
+        }
+        res.render('partials/connectedRooms', {sockets: outputSockets});
+      });
+
+      app.get('/connectedAndroids', function(req, res){
+        let inputSockets = [];
+        for(let socketId in connections){
+          if(connections[socketId].type === 'input')
+            inputSockets.push(connections[socketId].id);
+        }
+        res.render('partials/connectedAndroids', {sockets: inputSockets});
+      });
+
+      app.get('/ping', function(req, res){
+        let socketId = req.query.socketid;
+        let socket = connections[socketId];
+        if(socket != undefined){
+          socket.ping(req, res, function(req, res, tStart, tStop){
+            let dt = tStop - tStart;
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ ping: dt, succsess: true }));
+          });
+        }
+        else {
+          res.setHeader('Content-Type', 'application/json');
+          res.send(JSON.stringify({ succsess: false }));
+        }
+
+      })
 
       app.get('/test', function(reg, res){
          res. render('pages/testtest');

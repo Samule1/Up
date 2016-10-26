@@ -71,6 +71,9 @@
               <tr>
                 <td><input type="button" id="watch" class="btn btn-info menubutton" name="name" value="Watch a game"></td>
               </tr>
+              <tr>
+                <td><input type="button" class="btn btn-info menubutton" name="name" value="God view" onclick="window.location='/godView';"></td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -115,8 +118,14 @@
               type: "POST",
               url: '/findRoom',
               data: {room: roomId},
-              success: function(){
-                window.location.href = '/watch?roomId=' + roomId;
+              success: function(response){
+                if(response.success){
+                  window.location.href = '/watch?roomId=' + roomId;
+                }
+                else {
+                  $('#roomInput').val('No room found..');
+                }
+
               },
               dataType: 'json'
             })

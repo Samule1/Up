@@ -8,7 +8,7 @@ module.exports = {
         this.PlayerOneRed = new component(30, 130, "red", 20, 200);
         this.PlayerTwoBlue = new component(30, 130, "blue", 940, 200);
         this.TheBall = new component(20, 20, 'black', 480, 230);
-        this.TheBall.speedX = 4;
+        this.TheBall.speedX = 2;
         this.Top = new component(1000, 5, "black", 0, 0);
         this.Bottom = new component(1000, 5, "black", 0, 495);
         this.numberOfPlayers = 0;
@@ -38,22 +38,23 @@ module.exports = {
             }
             if (this.TheBall.x < 0 || this.TheBall.x > 1000) {
                 this.TheBall.x = 500;
-                this.TheBall.speedX = 4;
+                this.TheBall.speedX = 2;
             }
             //update positions
 
             let gameState = {
                 p1: {x: this.PlayerOneRed.x, y: this.PlayerOneRed.y},
                 p2: {x: this.PlayerTwoBlue.x, y: this.PlayerTwoBlue.y},
-                ball: {x: this.TheBall.x, y: this.TheBall.y}
+                ball: {x: this.TheBall.x, y: this.TheBall.y},
+                timeStamp: new Date().getTime()
             };
             for (var socketId in game.viewSockets) {
                 connections[socketId].emit('updateGameState', gameState)
             }
 
         this.start = function start() {
-            var t = this;
-            this.interval = setInterval(function(){t.update()}, 20);
+            let t = this;
+            this.interval = setInterval(function(){t.update()}, 10);
         }
         this.stop = function stop() {
             //this.interval.

@@ -32,6 +32,9 @@
         socket.on('updateGameState', function(data){
             updatePositons(data);
         });
+        socket.on('pingding', function(data){
+          socket.emit('ping response');
+        });
 
       })
     </script>
