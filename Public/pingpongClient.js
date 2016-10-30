@@ -1,16 +1,22 @@
 var lastPackage = 0;
 
 function startGame() {
+    myBackgroundArea.start();
     myGameArea.start();
+    myGameArea.clear();
     PlayerOneRed = new component(30, 130, "black", 20, 200);
     PlayerTwoBlue = new component(30, 130, "black", 940, 200);
     TheBall = new component(20,20, 'black', 480, 230);
     TheBall.speedX = 2;
     Top = new component(1000, 5, "black", 0, 0);
     Bottom = new component(1000, 5, "black", 0, 495);
+    Middle = new component(6, 25, "black", 497, 0);
 
-    Top.update();
-    Bottom.update();
+    myBackgroundArea.clear();
+    myGameArea.clear();
+    ctx = myBackgroundArea.context;
+    ctx.fillRect(0, 0, 1000, 5);
+
 
     //var increaseGameSpeed = setInterval(myTimer, 10000);
 }
@@ -37,6 +43,20 @@ function updatePositons(data){
 
 }
 
+var myBackgroundArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.pressedKeys = [];
+        this.canvas.width = 1000;
+        this.canvas.height = 500    ;
+        this.context = this.canvas.getContext("2d");
+        document.getElementById('canvasBackground').appendChild(this.canvas);
+        //document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
 
 
 var myGameArea = {
@@ -126,3 +146,10 @@ function updateGameArea() {
     Top.collide = false;
   }
 }
+/*
+for(var i=0; i<10; i++){
+    Middle.update();
+    Middle.y += 50;
+}
+Middle.y = 12;
+*/
