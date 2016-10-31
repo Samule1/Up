@@ -3,7 +3,7 @@ var player1Score = 0;
 var p1Changed = false;
 var player2Score = 2;
 var p2Changed = false;
-
+//Ello
 function startGame() {
     myBackgroundArea.start();
     myGameArea.start();
