@@ -64,8 +64,11 @@ var myBackgroundArea = {
         this.pressedKeys = [];
         this.canvas.width = 1000;
         this.canvas.height = 500    ;
+        this.canvas.style.position = "absolute";
+        this.canvas.style.zIndex = "0";
+        //this.canvas.style.backgroundColor = "white";
         this.context = this.canvas.getContext("2d");
-        document.getElementById('canvasBackground').appendChild(this.canvas);
+        document.getElementById('canvasContainer').appendChild(this.canvas);
         //document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     },
     clear : function() {
@@ -80,8 +83,10 @@ var myGameArea = {
         this.pressedKeys = [];
         this.canvas.width = 1000;
         this.canvas.height = 500    ;
+        this.canvas.style.zIndex = "1";
+        this.canvas.style.backgroundColor = "white";
         this.context = this.canvas.getContext("2d");
-        document.getElementById('canvasGame').appendChild(this.canvas);
+        document.getElementById('canvasContainer').appendChild(this.canvas);
         //document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     },
     clear : function() {
@@ -131,7 +136,7 @@ function updateNewXandY(obj){
 
 function updateGameArea() {
   if(p1Changed){
-    $('#playerTwoScoreLabel').text(player1Score);
+    $('#playertwoScoreLabel').text(player1Score);
     p1Changed = false;
   }
   if(p2Changed){

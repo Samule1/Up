@@ -13,9 +13,10 @@
                 </div>
 
             </td>
-            <td style="position: relative;">
-                <div id="canvasBackground" style="position: absolute; top: 0; left: 0; background-color: white;"></div>
-                <div id="canvasGame" style="position: absolute; top: 0; left: 0;"></div>
+            <td style="position: relative; text-align: center">
+                <div id="canvasContainer" style="position: relative;">
+                </div>
+
             </td>
             <td style="width: 7%;">
                 <div>
@@ -47,6 +48,9 @@
 <script type ="text/javascript" src="/pingpongClient.js"></script>
 
 <script>
+/*<canvas id="canvasBackground" style="position: relative; z-index: 0;"></canvas>
+<canvas id="canvasGame" style="position: relative; z-index: 1;"></canvas>*/
+
     $(document).ready(function(){
         $('body').css('background-color', '#01607d');
         //$('#playerOneName').value($('#playerContainer1'));
