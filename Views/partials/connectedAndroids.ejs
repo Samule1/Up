@@ -12,11 +12,13 @@
         </tr>
         <tr>
           <td>
-            <p id="pinglabel-<%= sockets[i] %>">-</p>
+            <p id="pinglabel-<%= sockets[i] %>">
+              <div class="loader"></div>
+            </p>
           </td>
         </tr>
         <tr>
-          <td><input type="button" class="btn" value="Ping!" onclick="pingding('<%=sockets[i]%>')"></td>
+          <td><input id="pingbutton-<%= sockets[i] %>" type="button" class="btn" value="Ping!" style="margin-top: 30px;" onclick="pingding('<%=sockets[i]%>')"></td>
         </tr>
       </tbody>
     </table>
