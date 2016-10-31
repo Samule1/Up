@@ -4,11 +4,14 @@
 "use strict";
 module.exports = {
     PingpongGame: function (game, connections) {
+        var playerOneScore = 0;
+        var playerTwoScore = 0;
+        var ballSpeed = 4;
 
-        this.PlayerOneRed = new component(30, 130, "red", 20, 200);
-        this.PlayerTwoBlue = new component(30, 130, "blue", 940, 200);
+        this.PlayerOneRed = new component(30, 130, "black", 20, 200);
+        this.PlayerTwoBlue = new component(30, 130, "black", 940, 200);
         this.TheBall = new component(20, 20, 'black', 480, 230);
-        this.TheBall.speedX = 2;
+        this.TheBall.speedX = ballSpeed;
         this.Top = new component(1000, 5, "black", 0, 0);
         this.Bottom = new component(1000, 5, "black", 0, 495);
         this.numberOfPlayers = 0;
@@ -19,9 +22,11 @@ module.exports = {
         this.update = function update() {
             if (collisonTest2(this.Top, this.TheBall)) {
                 reverseAngel(this.TheBall);
+                this.TheBall.collide = true;
             }
             if (collisonTest2(this.Bottom, this.TheBall)) {
                 reverseAngel(this.TheBall);
+                this.TheBall.collide = true;
             }
             if ((this.PlayerOneRed.y + this.PlayerOneRed.speedY) > 0 && (this.PlayerOneRed.y + this.PlayerOneRed.speedY) < 500 - 130
             && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) > 0 && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) < 400 ) {
@@ -35,25 +40,49 @@ module.exports = {
             newDirection(this.PlayerOneRed, this.TheBall);
             newDirection(this.PlayerTwoBlue, this.TheBall);
 
+            if (this.TheBall.x < 0) {
+                this.TheBall.x = 480;
+                this.TheBall.y = 230;
+                this.TheBall.speedX = 4;
+                playerOneScore++;
+                console.log(playerOneScore);
+              }
+            else if(this.TheBall.x > 1000){
+                this.TheBall.x = 480;
+                this.TheBall.y = 230;
+                this.TheBall.speedX = 4;
+                playerTwoScore++;
+                console.log(playerTwoScore);
+              }
+            /*
             if (this.TheBall.x < 0 || this.TheBall.x > 1000) {
                 this.TheBall.x = 500;
+                this.TheBall.y = 250;
                 this.TheBall.speedX = 2;
             }
+            */
             //update positions
 
             let gameState = {
-                p1: {x: this.PlayerOneRed.x, y: this.PlayerOneRed.y},
-                p2: {x: this.PlayerTwoBlue.x, y: this.PlayerTwoBlue.y},
-                ball: {x: this.TheBall.x, y: this.TheBall.y},
+                p1: {x: this.PlayerOneRed.x, y: this.PlayerOneRed.y, collide:this.PlayerOneRed.collide},
+                p2: {x: this.PlayerTwoBlue.x, y: this.PlayerTwoBlue.y, collide:this.PlayerTwoBlue.collide},
+                ball: {x: this.TheBall.x, y: this.TheBall.y, collide:this.TheBall.collide},
+                Top: {collide: this.Top.collide},
+                Bottom: {collide: this.Bottom.collide},
+                playerScore: {playerOneScore: playerOneScore, playerTwoScore: playerTwoScore},
                 timeStamp: new Date().getTime()
             };
             for (var socketId in game.viewSockets) {
                 connections[socketId].emit('updateGameState', gameState)
             }
+            this.Top.collide = false;
+            this.Bottom.collide = false;
+            this.PlayerOneRed.collide = false;
+            this.PlayerTwoBlue.collide = false;
         }
         this.start = function start() {
             let t = this;
-            this.interval = setInterval(function(){t.update()}, 10);
+            this.interval = setInterval(function(){t.update()}, 20);
         }
         this.stop = function stop() {
             //this.interval.
@@ -117,8 +146,6 @@ module.exports = {
                 speedX = -4;
                 speedY = -4;
             }
-
-
             if (playerAndDirection.player === 1) {
                 this.PlayerOneRed.speedY = speedY;
                 this.PlayerOneRed.speedX = speedX;
@@ -134,6 +161,7 @@ module.exports = {
     }
 }
 
+
 function component(width, height, color, x, y) {
     this.width = width;
     this.height = height;
@@ -141,6 +169,7 @@ function component(width, height, color, x, y) {
     this.speedY = 0;
     this.x = x;
     this.y = y;
+    this.collide = false;
     this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY;
@@ -163,22 +192,27 @@ function newDirection(rect1, rect2){  // rect2 ball
         if(mid < (rect1.y + interval) && mid > rect1.y){  //rect2.x
             reverseDirectionX(rect2);
             rect2.speedY = -2;
+            rect1.collide = true;
         }
         if(mid > (rect1.y +interval)  && mid < (rect1.y + interval*2)){
             reverseDirectionX(rect2);
             rect2.speedY = -1;
+            rect1.collide = true;
         }
         if(mid > (rect1.y + interval*2) && mid < (rect1.y + interval*3)){
             reverseDirectionX(rect2);
             rect2.speedY = 0;
+            rect1.collide = true;
         }
         if(mid > (rect1.y + interval*3) && mid < (rect1.y + interval*4)){
             reverseDirectionX(rect2);
             rect2.speedY = 1;
+            rect1.collide = true;
         }
         if(mid > (rect1.y + interval*4) && mid < (rect1.y +interval*5)){
             reverseDirectionX(rect2);
             rect2.speedY = 2;
+            rect1.collide = true;
         }
     }
 }
@@ -195,8 +229,17 @@ function reverseAngel(rect){
 function reverseDirectionX(rect){
     if(rect.speedX > 0 ){
         rect.speedX = rect.speedX * -1;
+        if(rect.x > 500){
+          rect.x = rect.x -10;
+        }
+        else if(rect.x < 500){
+          rect.x = rect.x + 10;
+        }
     }
     else{
         rect.speedX = rect.speedX * -1;
+        if(rect.x < 500){
+          rect.x = rect.x + 15;
+        }
     }
 }

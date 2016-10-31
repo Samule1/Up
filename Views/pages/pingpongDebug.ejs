@@ -173,6 +173,12 @@
     function reverseDirectionX(rect){
         if(rect.speedX > 0 ){
             rect.speedX = rect.speedX * -1;
+            if(rect.x > 500){
+              rect.x = rect.x -10;
+            }
+            else if(rect.x < 500){
+              rect.x = rect.x + 10;
+            }
         }
         else{
             rect.speedX = rect.speedX * -1;
@@ -239,7 +245,7 @@
         }
         Middle.y = 12;
     }
-	
+
 	//ladda upp
 
 </script>

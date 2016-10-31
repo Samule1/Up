@@ -74,7 +74,7 @@ module.exports = {
       });
 
       app.get('/debugGame', function (req, res) {
-          res.render('pages/pingpong');
+          res.render('pages/pingpongDebug');
       });
 
       app.get('/godView', function(req, res){
