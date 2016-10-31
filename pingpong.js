@@ -45,14 +45,14 @@ module.exports = {
                 this.TheBall.y = 230;
                 this.TheBall.speedX = 4;
                 playerOneScore++;
-                console.log(playerOneScore);
+
               }
             else if(this.TheBall.x > 1000){
                 this.TheBall.x = 480;
                 this.TheBall.y = 230;
                 this.TheBall.speedX = 4;
                 playerTwoScore++;
-                console.log(playerTwoScore);
+
               }
             /*
             if (this.TheBall.x < 0 || this.TheBall.x > 1000) {
