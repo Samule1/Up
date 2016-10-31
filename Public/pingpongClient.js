@@ -1,4 +1,8 @@
 var lastPackage = 0;
+var player1Score = 0;
+var p1Changed = false;
+var player2Score = 2;
+var p2Changed = false;
 
 function startGame() {
     myBackgroundArea.start();
@@ -11,14 +15,17 @@ function startGame() {
     Top = new component(1000, 5, "black", 0, 0);
     Bottom = new component(1000, 5, "black", 0, 495);
     Middle = new component(6, 25, "black", 497, 0);
-
-    myBackgroundArea.clear();
-    myGameArea.clear();
-    ctx = myBackgroundArea.context;
-    ctx.fillRect(0, 0, 1000, 5);
-
-
+    setUpGameScreen();
     //var increaseGameSpeed = setInterval(myTimer, 10000);
+}
+
+function setUpGameScreen(){
+  myBackgroundArea.clear();
+  myGameArea.clear();
+  ctx = myBackgroundArea.context;
+  ctx.fillRect(0, 0, 1000, 5); // Top
+  ctx.fillRect(0, 495, 1000, 5); // Bottom
+  ctx.fillRect(497, 0, 6, 500);
 }
 
 function updatePositons(data){
@@ -34,6 +41,14 @@ function updatePositons(data){
     TheBall.nextY = data.ball.y;
     Bottom.collide = data.Bottom.collide;
     Top.collide = data.Top.collide;
+    if(player1Score != data.playerScore.playerOneScore){
+      player1Score = data.playerScore.playerOneScore;
+      p1Changed = true;
+    }
+    if(player2Score != data.playerScore.playerTwoScore){
+      player2Score = data.playerScore.playerTwoScore;
+      p2Changed = true;
+    }
     updateGameArea();
     lastPackage = data.timeStamp;
   }
@@ -96,9 +111,11 @@ function component(width, height, color, x, y) {
         ctx.fill();
     }
     this.clearCircle = function(){
+        ctx = myGameArea.context;
         ctx.clearRect(this.x, this.y, this.width, this.height);
     }
     this.clearObj = function(){
+        ctx = myGameArea.context;
         ctx.clearRect(this.x, this.y, this.width, this.height);
     }
     this.newPos = function() {
@@ -113,7 +130,14 @@ function updateNewXandY(obj){
 }
 
 function updateGameArea() {
-
+  if(p1Changed){
+    $('#playerTwoScoreLabel').text(player1Score);
+    p1Changed = false;
+  }
+  if(p2Changed){
+    $('#playerOneScoreLabel').text(player2Score);
+    p2Changed = false;
+  }
   if(PlayerOneRed.nextX != PlayerOneRed.x || PlayerOneRed.nextY != PlayerOneRed.y){
     PlayerOneRed.clearObj();
     updateNewXandY(PlayerOneRed);
@@ -146,10 +170,3 @@ function updateGameArea() {
     Top.collide = false;
   }
 }
-/*
-for(var i=0; i<10; i++){
-    Middle.update();
-    Middle.y += 50;
-}
-Middle.y = 12;
-*/
