@@ -8,6 +8,11 @@ var previouseTestupdateFreq = 0;
 var testUpdateFreq = 0
 var firstrun = true;
 
+var imageBall = new Image();
+imageBall.src = '/Images/ball.png';
+var imagePad = new Image();
+imagePad.src = '/Images/pad.png';
+
 var requestAnimationFrame =
           window.requestAnimationFrame       ||
           window.webkitRequestAnimationFrame ||
@@ -18,9 +23,9 @@ function startGame() {
     myBackgroundArea.start();
     myGameArea.start();
     myGameArea.clear();
-    PlayerOneRed = new component(30, 130, "black", 20, 200);
-    PlayerTwoBlue = new component(30, 130, "black", 940, 200);
-    TheBall = new component(20,20, 'black', 480, 230);
+    PlayerOneRed = new component(30, 130, "black", 20, 200, imagePad);
+    PlayerTwoBlue = new component(30, 130, "black", 940, 200, imagePad);
+    TheBall = new component(20,20, 'black', 480, 230, imageBall);
     TheBall.speedX = 2;
     Top = new component(1000, 5, "black", 0, 0);
     Bottom = new component(1000, 5, "black", 0, 495);
@@ -104,13 +109,14 @@ var myGameArea = {
     }
 }
 
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, img) {
     this.width = width;
     this.height = height;
     this.nextX = 0;
     this.nextY = 0;
     this.x = x;
     this.y = y;
+    this.sprite = img;
     this.collide = false;
     this.update = function(){
         ctx = myGameArea.context;
@@ -136,6 +142,10 @@ function component(width, height, color, x, y) {
     this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY;
+    }
+    this.updateImage = function(){
+        ctx = myGameArea.context;
+        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
     }
 }
 
@@ -191,9 +201,9 @@ function updateGameArea() {
     TheBall.clearCircle();
     updateNewXandY(TheBall);
 
-    TheBall.updateCircle();
-    PlayerOneRed.update();
-    PlayerTwoBlue.update();
+    TheBall.updateImage();
+    PlayerOneRed.updateImage();
+    PlayerTwoBlue.updateImage();
     requestAnimationFrame(drawGameArea);
   }
 
