@@ -12,7 +12,7 @@ var imageBall = new Image();
 imageBall.src = '/Images/ball.png';
 var imagePad = new Image();
 imagePad.src = '/Images/pad.png';
-
+//
 var requestAnimationFrame =
           window.requestAnimationFrame       ||
           window.webkitRequestAnimationFrame ||
