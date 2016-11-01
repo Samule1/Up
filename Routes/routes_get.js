@@ -32,13 +32,6 @@ module.exports = {
           let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
           let playerLimit = 2;
           qrSource = qrSource.replace("[roomId]", uniqueId);
-          res.render('pages/stage', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
-      });
-      app.get('/stageNew', function (req, res) {
-          let uniqueId = helper.getRandomId5();
-          let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
-          let playerLimit = 2;
-          qrSource = qrSource.replace("[roomId]", uniqueId);
           res.render('pages/stageNew', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
       });
 
