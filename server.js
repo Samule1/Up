@@ -67,13 +67,29 @@ io.sockets.on('connection', (socket) => {
     //Disconnect
   socket.on('disconnect', (data)=> {
       if(socket.type === 'output'){
+          activeGames[socket.roomId].viewSockets.length--;
           delete activeGames[socket.roomId].viewSockets[socket.id];
           activeGames.numberOfObservers--;
+
+          //If there is no output hooked up to a game the game shold end..
+          if(activeGames[socket.roomId].viewSockets.length == 0){
+            for(var socketid in activeGames[socket.roomId].inputSockets){
+              connections[socketid].emit('quit'); 
+            }
+          }
           //generate disconnect event
       }
       else if(socket.type === 'input'){
+          activeGames[socket.roomId].inputSockets.length--;
           delete activeGames[socket.roomId].inputSockets[socket.id];
           activeGames.numberOfPlayers--;
+          //If there are 0 inputSockets to a game, that game should be deleted..
+          if(activeGames[socket.roomId].inputSockets.length < 1){
+            activeGames[socket.roomId].gameState = null;
+            activeGames.numberOfGames--;
+            //Notify and detach all obeservers here..
+
+          }
       }
       else if(socket.type == 'admin'){
         adminsockets.splice(adminsockets.indexOf(socket), 1);
@@ -126,11 +142,15 @@ io.sockets.on('connection', (socket) => {
           activeGames.numberOfGames++;
           activeGames.numberOfObservers++;
 
+          game.viewSockets.length++;
+
+
         }
         else {
           socket.roomId = data.id;
           socket.type = 'output';
           activeGames[data.id].viewSockets[socket.id] = socket.id;
+          activeGames[data.id].viewSockets.length++;
           activeGames.numberOfObservers++;
           console.log('Connected new observer socket!');
         }
@@ -146,6 +166,7 @@ io.sockets.on('connection', (socket) => {
           }
           else {
               activeGames[data.id].inputSockets[socket.id] = socket.id;
+              activeGames[data.id].inputSockets.length++;
               socket.roomId = data.id;
               socket.type = 'input';
               socket.player = activeGames[data.id].gameState.getNextPlayerNumber();
@@ -172,7 +193,7 @@ io.sockets.on('connection', (socket) => {
 
       adminsockets.forEach((adminsocket)=>{
         adminsocket.emit('baseStatPack', activeGames.getStatPack());
-      }); 
+      });
   });
 
   //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...
@@ -216,6 +237,12 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('getBaseStatPack', (data)=>{
     socket.emit('baseStatPack', activeGames.getStatPack());
+  });
+
+  socket.on('gameIsReady', (data) =>{
+    for(let socketid in activeGames[socket.roomId].inputSockets){
+      connections[socketid].emit('game is ready');
+    }
   });
 
 });
