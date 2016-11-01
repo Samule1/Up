@@ -244,3 +244,4 @@ function reverseDirectionX(rect){
         }
     }
 }
+//hampus hej
