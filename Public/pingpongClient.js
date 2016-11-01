@@ -3,7 +3,17 @@ var player1Score = 0;
 var p1Changed = false;
 var player2Score = 2;
 var p2Changed = false;
-//Ello
+
+var previouseTestupdateFreq = 0;
+var testUpdateFreq = 0
+var firstrun = true;
+
+var requestAnimationFrame =
+          window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame    ||
+          window.mozRequestAnimationFrame;
+
 function startGame() {
     myBackgroundArea.start();
     myGameArea.start();
@@ -16,6 +26,7 @@ function startGame() {
     Bottom = new component(1000, 5, "black", 0, 495);
     Middle = new component(6, 25, "black", 497, 0);
     setUpGameScreen();
+    drawGameArea();
     //var increaseGameSpeed = setInterval(myTimer, 10000);
 }
 
@@ -49,13 +60,12 @@ function updatePositons(data){
       player2Score = data.playerScore.playerTwoScore;
       p2Changed = true;
     }
-    updateGameArea();
     lastPackage = data.timeStamp;
-  }
-  else{
-    console.log('lost packet..');
-  }
-
+    updateGameArea();
+    }
+    else{
+      console.log('lost packet..');
+    }
 }
 
 var myBackgroundArea = {
@@ -135,29 +145,17 @@ function updateNewXandY(obj){
 }
 
 function updateGameArea() {
+  // Check for changes in scores
   if(p1Changed){
-    $('#playertwoScoreLabel').text(player1Score);
+    $('#playerTwoScoreLabel').text(player1Score);
     p1Changed = false;
   }
   if(p2Changed){
     $('#playerOneScoreLabel').text(player2Score);
     p2Changed = false;
   }
-  if(PlayerOneRed.nextX != PlayerOneRed.x || PlayerOneRed.nextY != PlayerOneRed.y){
-    PlayerOneRed.clearObj();
-    updateNewXandY(PlayerOneRed);
-  }
-  if(PlayerTwoBlue.nextX != PlayerTwoBlue.x || PlayerTwoBlue.nextY != PlayerTwoBlue.y){
-    PlayerTwoBlue.clearObj()
-    updateNewXandY(PlayerTwoBlue);
-  }
-  TheBall.clearCircle();
-  updateNewXandY(TheBall);
 
-  TheBall.updateCircle();
-  PlayerOneRed.update();
-  PlayerTwoBlue.update();
-
+/*
   if(PlayerOneRed.collide){
     PlayerOneRed.update();
     PlayerOneRed.collide = false;
@@ -174,4 +172,43 @@ function updateGameArea() {
     Top.update();
     Top.collide = false;
   }
+  */
 }
+
+
+  function drawGameArea(){
+    testUpdate();
+    // If pads are moving clearrect and repaint
+    if(PlayerOneRed.nextX != PlayerOneRed.x || PlayerOneRed.nextY != PlayerOneRed.y){
+      PlayerOneRed.clearObj();
+      updateNewXandY(PlayerOneRed);
+    }
+    if(PlayerTwoBlue.nextX != PlayerTwoBlue.x || PlayerTwoBlue.nextY != PlayerTwoBlue.y){
+      PlayerTwoBlue.clearObj()
+      updateNewXandY(PlayerTwoBlue);
+    }
+    // clearCircle and update new x and y
+    TheBall.clearCircle();
+    updateNewXandY(TheBall);
+
+    TheBall.updateCircle();
+    PlayerOneRed.update();
+    PlayerTwoBlue.update();
+    requestAnimationFrame(drawGameArea);
+  }
+
+  function testUpdate(){
+    if(firstrun){
+      previouseTestupdateFreq = Date.now();
+    }
+    else{
+      testUpdateFreq = Date.now();
+    }
+    console.log(testUpdateFreq - previouseTestupdateFreq);
+    if(firstrun){
+      firstrun = false;
+    }
+    else{
+      previouseTestupdateFreq = testUpdateFreq;
+    }
+  }
