@@ -74,7 +74,8 @@ io.sockets.on('connection', (socket) => {
           //If there is no output hooked up to a game the game shold end..
           if(activeGames[socket.roomId].viewSockets.length == 0){
             for(var socketid in activeGames[socket.roomId].inputSockets){
-              connections[socketid].emit('quit'); 
+              connections[socketid].emit('quit');
+              
             }
           }
           //generate disconnect event
