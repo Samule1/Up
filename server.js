@@ -11,7 +11,9 @@ var Socket = require('socket.io/lib/socket');
 
 //Globals
 let connections = [];
+let adminsockets = [];
 let activeGames = {};
+
 
 //Adding custom stuff to the Socket object..
 Socket.prototype.ping = function(req, res, callback){
@@ -24,6 +26,18 @@ Socket.prototype.ping = function(req, res, callback){
   }
   this.emit('pingding')
 };
+
+//For stats in god view..
+activeGames.numberOfPlayers = 0;
+activeGames.numberOfObservers = 0;
+activeGames.numberOfGames = 0;
+
+activeGames.getStatPack = function(){
+  return {activeGames: this.numberOfGames,
+                    numberOfPlayers: this.numberOfPlayers,
+                    numberOfObservers: this.numberOfObservers}
+}
+
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/Views');
@@ -54,14 +68,24 @@ io.sockets.on('connection', (socket) => {
   socket.on('disconnect', (data)=> {
       if(socket.type === 'output'){
           delete activeGames[socket.roomId].viewSockets[socket.id];
+          activeGames.numberOfObservers--;
           //generate disconnect event
       }
       else if(socket.type === 'input'){
           delete activeGames[socket.roomId].inputSockets[socket.id];
+          activeGames.numberOfPlayers--;
+      }
+      else if(socket.type == 'admin'){
+        adminsockets.splice(adminsockets.indexOf(socket), 1);
       }
       else{
           console.log('Error in disconnect' + socket);
       }
+
+      adminsockets.forEach((socket)=>{
+        socket.emit('baseStatPack', activeGames.getStatPack())
+      });
+
       delete connections[socket.id];
       connections.length--;
       console.log('Disconnected: %s sockets connected', connections.length);
@@ -98,11 +122,16 @@ io.sockets.on('connection', (socket) => {
           activeGames[data.id].gameState = new games.PingpongGame(activeGames[data.id], connections);
 
           activeGames[data.id].meta.isActive = true;
+
+          activeGames.numberOfGames++;
+          activeGames.numberOfObservers++;
+
         }
         else {
           socket.roomId = data.id;
           socket.type = 'output';
           activeGames[data.id].viewSockets[socket.id] = socket.id;
+          activeGames.numberOfObservers++;
           console.log('Connected new observer socket!');
         }
 
@@ -132,10 +161,14 @@ io.sockets.on('connection', (socket) => {
                 socket.isTesting = true;
               }
 
-
+              activeGames.numberOfPlayers++;
               console.log('Registred new input to room: ' + data.id);
           }
       }
+      else if(data.type === 'admin'){
+        adminsockets.push(socket);
+        socket.emit('baseStatPack', activeGames.getStatPack())
+      };
   });
 
   //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...
@@ -175,6 +208,10 @@ io.sockets.on('connection', (socket) => {
     socket.tempPingData.callback(req, res, tStart, tStop);
     socket.tempPingData.callback = function(req, res, tStart, tStop){};
 
+  });
+
+  socket.on('getBaseStatPack', (data)=>{
+    socket.emit('baseStatPack', activeGames.getStatPack());
   });
 
 });

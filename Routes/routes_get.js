@@ -99,6 +99,10 @@ module.exports = {
         res.render('partials/connectedAndroids', {sockets: inputSockets});
       });
 
+      app.get('/dashboard', function(req, res){
+        res.render('partials/dashboard');
+      });
+
       app.get('/ping', function(req, res){
         let socketId = req.query.socketid;
         let socket = connections[socketId];

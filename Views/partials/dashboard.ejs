@@ -1,0 +1,41 @@
+<style media="screen">
+  .pimped-out{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 200px;
+    text-align: center;
+  }
+  th {
+    min-width: 400px;
+  }
+</style>
+<div id=dashwrapper style="margin-top: 100px; ">
+  <table>
+    <tbody>
+      <tr>
+        <th>
+          <p class="pimped-out" style="font-size: 30px;">Number of active connections</p>
+        </th>
+        <th>
+          <p class="pimped-out"  style="font-size: 30px;">Number of players</p>
+        </th>
+        <th>
+          <p class="pimped-out"  style="font-size: 30px;">Number of observers</p>
+        </th>
+      </tr>
+      <tr>
+        <td>
+          <p id="numberOfGames" class="pimped-out">0</p>
+        </td>
+        <td>
+          <p id="numberOfPlayers" class="pimped-out">0</p>
+        </td>
+        <td>
+          <p id="numberOfObservers" class="pimped-out">0</p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<script type="text/javascript">
+  socket.emit('getBaseStatPack'); 
+</script>

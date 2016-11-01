@@ -175,7 +175,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">Dashboard</a>
+                    <a id="dashboard" href="#">Dashboard</a>
                 </li>
                 <li>
                     <a id="androids" href="#">Androids</a>
@@ -187,9 +187,24 @@
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
-      <div id="connectionContainer" class="col-md-6"></div>
+      <div id="connectionContainer" class="col-md-12"></div>
     </div>
     <script type="text/javascript">
+      var socket;
+      $(document).ready(function(){
+          $('#connectionContainer').load('/dashboard');
+          socket = io.connect();
+          socket.emit('register', {type: 'admin'});
+          socket.on('baseStatPack', function(data){
+            console.log(data);
+            $('#numberOfGames').text(data.activeGames);
+            $('#numberOfPlayers').text(data.numberOfPlayers);
+            $('#numberOfObservers').text(data.numberOfObservers);
+          })
+
+      });
+
+
       function pingding(socketid){
         $('#pingloader-'+socketid).show();
         $('#pingbutton-'+socketid).hide();
@@ -211,9 +226,12 @@
       }
       $('#rooms').click(function(){
         $('#connectionContainer').load('/connectedRooms');
-      })
+      });
       $('#androids').click(function(){
         $('#connectionContainer').load('/connectedAndroids');
+      });
+      $('#dashboard').click(function(){
+        $('#connectionContainer').load('/dashboard')
       })
     </script>
   </body>
