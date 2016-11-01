@@ -7,6 +7,7 @@ module.exports = {
         var playerOneScore = 0;
         var playerTwoScore = 0;
         var ballSpeed = 4;
+        var testspeed = 0;
 
         this.PlayerOneRed = new component(30, 130, "black", 20, 200);
         this.PlayerTwoBlue = new component(30, 130, "black", 940, 200);
@@ -45,14 +46,12 @@ module.exports = {
                 this.TheBall.y = 230;
                 this.TheBall.speedX = 4;
                 playerOneScore++;
-                console.log(playerOneScore);
               }
             else if(this.TheBall.x > 1000){
                 this.TheBall.x = 480;
                 this.TheBall.y = 230;
                 this.TheBall.speedX = 4;
                 playerTwoScore++;
-                console.log(playerTwoScore);
               }
             /*
             if (this.TheBall.x < 0 || this.TheBall.x > 1000) {
@@ -79,10 +78,12 @@ module.exports = {
             this.Bottom.collide = false;
             this.PlayerOneRed.collide = false;
             this.PlayerTwoBlue.collide = false;
+
         }
         this.start = function start() {
             let t = this;
             this.interval = setInterval(function(){t.update()}, 20);
+            t.update();
         }
         this.stop = function stop() {
             //this.interval.
