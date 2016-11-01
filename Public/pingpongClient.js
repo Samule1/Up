@@ -204,7 +204,10 @@ function updateGameArea() {
     else{
       testUpdateFreq = Date.now();
     }
-    console.log(testUpdateFreq - previouseTestupdateFreq);
+    if((testUpdateFreq - previouseTestupdateFreq) > 40){
+        console.log(testUpdateFreq - previouseTestupdateFreq);
+    }
+
     if(firstrun){
       firstrun = false;
     }
