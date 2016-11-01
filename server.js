@@ -75,8 +75,9 @@ io.sockets.on('connection', (socket) => {
           if(activeGames[socket.roomId].viewSockets.length == 0){
             for(var socketid in activeGames[socket.roomId].inputSockets){
               connections[socketid].emit('quit');
-              
             }
+            activeGames[socket.roomId].gameState = null;
+            activeGames.numberOfGames--;
           }
           //generate disconnect event
       }
