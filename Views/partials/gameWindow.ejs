@@ -1,49 +1,62 @@
-<body>
+<div class="test">
+
+</div>
+
 <div class="col-md-12" style="margin-top: 6%">
-    <table style="width: inherit">
+    <table class="hej" style="width: inherit">
         <tbody>
         <tr>
             <td style="width: 7%">
-                <div>
-                    <!--
-                    <label>Player One</label>mpdpdjopdoj
-                    <label id="playerOneName"></label>
-                    -->
-                    <label id="playerOneScoreLabel" style="text-align: center; font-size: xx-large;">0</label>
+                <div style="text-align: center;">
+                    <label id="playerOneScoreLabel" style="text-align: center; font-size: xx-large; color: white;">0</label>
                 </div>
-
             </td>
             <td style="position: relative; text-align: center">
+                <div class="blur">
+
+                </div>
                 <div id="canvasContainer" style="position: relative;">
                 </div>
-
             </td>
             <td style="width: 7%;">
-                <div>
-                    <!--
-                    <label>Player Two</label>
-                    <label id="playerTwoName"></label>
-                    -->
-                    <label id="playerTwoScoreLabel" style="text-align: center; font-size: xx-large">0</label>
+                <div style="text-align: center;">
+                    <label id="playerTwoScoreLabel" style="text-align: center; font-size: xx-large; color: white;">0</label>
                 </div>
             </td>
         </tr>
         </tbody>
     </table>
-
-
 </div>
-</body>
+
 
 <style>
-    canvas {
+  canvas {
         width: 1000px;
         height: 500px;
         Vertical-align: middle;
         border-radius: 10px;
         border: 20px solid #ffffff
     }
+    .test {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-image: url("Images/Test3.jpg");
+    filter: blur(3px);
+    z-index:-2;
+    -webkit-filter: blur(15px);
+    }
+    .blur {
+      -webkit-filter: blur(5px);
+      -moz-filter: blur(5px);
+      -o-filter: blur(5px);
+      -ms-filter: blur(5px);
+      filter: blur(5px);
+    }
 </style>
+
 
 <script type ="text/javascript" src="/pingpongClient.js"></script>
 
@@ -52,7 +65,8 @@
 <canvas id="canvasGame" style="position: relative; z-index: 1;"></canvas>*/
 
     $(document).ready(function(){
-        $('body').css('background-color', '#01607d');
+        //$('body').css('background-color', '#01607d');
+        //$('body').css('opacity', '0.5');
         //$('#playerOneName').value($('#playerContainer1'));
     });
 

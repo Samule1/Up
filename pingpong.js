@@ -83,11 +83,15 @@ module.exports = {
         this.start = function start() {
             let t = this;
             this.interval = setInterval(function(){t.update()}, 20);
-            t.update();
+            var increaseSpeed = setinterval(function{t.increasespeed()}, 10000);
         }
         this.stop = function stop() {
             //this.interval.
         }
+        this.increasespeed = function increasespeed(){
+          
+        }
+
         this.setDirection = function setDirection(playerAndDirection) {
             let speedY = 0;
             let speedX = 0;
@@ -188,9 +192,10 @@ function collisonTest2(rect1, rect2) {
 
 function newDirection(rect1, rect2){  // rect2 ball
     if(collisonTest2(rect1, rect2)){
+        console.log("collison");
         var mid = rect2.y + rect2.height/2;
         var interval = rect1.height/5;
-        if(mid < (rect1.y + interval) && mid > rect1.y){  //rect2.x
+        if(mid < (rect1.y + interval)){  //rect2.x
             reverseDirectionX(rect2);
             rect2.speedY = -2;
             rect1.collide = true;
@@ -210,7 +215,7 @@ function newDirection(rect1, rect2){  // rect2 ball
             rect2.speedY = 1;
             rect1.collide = true;
         }
-        if(mid > (rect1.y + interval*4) && mid < (rect1.y +interval*5)){
+        if(mid > (rect1.y + interval*4)){
             reverseDirectionX(rect2);
             rect2.speedY = 2;
             rect1.collide = true;
