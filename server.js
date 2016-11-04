@@ -95,10 +95,13 @@ io.sockets.on('connection', (socket) => {
           console.log('Error in disconnect' + socket);
       }
       //Preform total delete if there is noone left..
-      if(activeGames[socket.roomId].inputSockets.length == 0
-       && activeGames[socket.roomId].viewSockets.length == 0){
-         delete activeGames[socket.roomId];
-       }
+      if(activeGames[socket.roomId] != null){
+        if(activeGames[socket.roomId].inputSockets.length === 0 &&
+           activeGames[socket.roomId].viewSockets.length === 0){
+           delete activeGames[socket.roomId];
+         }
+      }
+
 
       adminsockets.forEach((socket)=>{
         socket.emit('baseStatPack', activeGames.getStatPack())
@@ -189,6 +192,7 @@ io.sockets.on('connection', (socket) => {
           }
       }
       else if(data.type === 'admin'){
+        socket.type = data.type;
         adminsockets.push(socket);
         socket.emit('baseStatPack', activeGames.getStatPack())
       };
