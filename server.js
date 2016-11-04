@@ -86,12 +86,7 @@ io.sockets.on('connection', (socket) => {
           delete activeGames[socket.roomId].inputSockets[socket.id];
           activeGames.numberOfPlayers--;
           //If there are 0 inputSockets to a game, that game should be deleted..
-          if(activeGames[socket.roomId].inputSockets.length < 1){
-            activeGames[socket.roomId].gameState = null;
-            activeGames.numberOfGames--;
-            //Notify and detach all obeservers here..
 
-          }
       }
       else if(socket.type == 'admin'){
         adminsockets.splice(adminsockets.indexOf(socket), 1);
@@ -99,6 +94,11 @@ io.sockets.on('connection', (socket) => {
       else{
           console.log('Error in disconnect' + socket);
       }
+      //Preform total delete if there is noone left..
+      if(activeGames[socket.roomId].inputSockets.length == 0
+       && activeGames[socket.roomId].viewSockets.length == 0){
+         delete activeGames[socket.roomId];
+       }
 
       adminsockets.forEach((socket)=>{
         socket.emit('baseStatPack', activeGames.getStatPack())
