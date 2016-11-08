@@ -92,7 +92,7 @@
             setTimeout(function(){
               $('#gFrame').load('/androidtestsite', function(){
                 $('#loader').css('display', 'none');
-                socket.emit('game is ready');
+                socket.emit('gameIsReady');
               });
             }, 5000)
           })
