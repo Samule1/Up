@@ -119,6 +119,7 @@
       })
 
       socket.on('updateGameState', function(data){
+        //addToDataBuffer(data);
         updatePositons(data);
       });
       socket.on('pingding', function(data){
