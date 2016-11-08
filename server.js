@@ -172,7 +172,7 @@ io.sockets.on('connection', (socket) => {
 
       adminsockets.forEach((adminsocket)=>{
         adminsocket.emit('baseStatPack', activeGames.getStatPack());
-      }); 
+      });
   });
 
   //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...

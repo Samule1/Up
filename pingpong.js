@@ -7,7 +7,7 @@ module.exports = {
         var playerOneScore = 0;
         var playerTwoScore = 0;
         var testspeed = 0;
-        let ballSpeed = 4;
+        let ballSpeed = 6;
 
         this.PlayerOneRed = new component(30, 130, "black", 20, 200);
         this.PlayerTwoBlue = new component(30, 130, "black", 940, 200);
@@ -44,6 +44,7 @@ module.exports = {
             if (this.TheBall.x < 0) {
                 this.TheBall.x = 480;
                 this.TheBall.y = 230;
+                ballSpeed = 6;
                 this.TheBall.speedX = ballSpeed;
                 this.TheBall.speedY = 0;
                 playerOneScore++;
@@ -51,7 +52,8 @@ module.exports = {
             else if(this.TheBall.x > 1000){
                 this.TheBall.x = 480;
                 this.TheBall.y = 230;
-                this.TheBall.speedX = ballSpeed;
+                ballSpeed = 6;
+                this.TheBall.speedX = ballSpeed * -1;
                 this.TheBall.speedY = 0;
                 playerTwoScore++;
               }
@@ -84,13 +86,22 @@ module.exports = {
         }
 
         this.increasespeed = function increasespeed(){
-            ballSpeed += 2;
+          console.log("timer increased speed of ball");
+          console.log(ballSpeed);
+          if(ballSpeed < 12)
+            ballSpeed += 4;
+            if(this.TheBall.speedX > 0){
+              this.TheBall.speedX = ballSpeed;
+            }
+            else{
+              this.TheBall.speedX = ballSpeed *-1;
+            }
         }
 
         this.start = function start() {
             let t = this;
             this.interval = setInterval(function(){t.update()}, 20);
-            this.increaseSpeed = setInterval(function(){t.increasespeed()}, 10000);
+            this.increaseSpeed = setInterval(function(){t.increasespeed()}, 30000);
         }
         this.stop = function stop() {
             //this.interval.
@@ -201,28 +212,28 @@ function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
         var mid = rect2.y + rect2.height/2;
         var interval = rect1.height/5;
         if(mid < (rect1.y + interval)){  //rect2.x
-            reverseDirectionX(rect2);
-            rect2.speedY = (ballspeed * -1);
-            rect1.collide = true;
-        }
-        if(mid > (rect1.y +interval)  && mid < (rect1.y + interval*2)){
-            reverseDirectionX(rect2);
+            reverseDirectionX(rect2, ballSpeed);
             rect2.speedY = ((ballspeed/2) * -1);
             rect1.collide = true;
         }
+        if(mid > (rect1.y +interval)  && mid < (rect1.y + interval*2)){
+            reverseDirectionX(rect2, ballSpeed);
+            rect2.speedY = ((ballspeed/4) * -1);
+            rect1.collide = true;
+        }
         if(mid > (rect1.y + interval*2) && mid < (rect1.y + interval*3)){
-            reverseDirectionX(rect2);
+            reverseDirectionX(rect2, ballSpeed);
             rect2.speedY = 0;
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*3) && mid < (rect1.y + interval*4)){
-            reverseDirectionX(rect2);
-            rect2.speedY = (ballspeed/2);
+            reverseDirectionX(rect2, ballSpeed);
+            rect2.speedY = (ballspeed/4);
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*4)){
-            reverseDirectionX(rect2);
-            rect2.speedY = ballspeed;
+            reverseDirectionX(rect2, ballSpeed);
+            rect2.speedY = ballspeed/2;
             rect1.collide = true;
         }
     }
@@ -237,14 +248,14 @@ function reverseAngel(rect){
     }
 }
 
-function reverseDirectionX(rect){
+function reverseDirectionX(rect, ballSpeed){
     if(rect.speedX > 0 ){
         rect.speedX = rect.speedX * -1;
         if(rect.x > 500){
-          rect.x = rect.x -10;
+          rect.x = rect.x - (ballSpeed + 4);
         }
         else if(rect.x < 500){
-          rect.x = rect.x + 10;
+          rect.x = rect.x + (ballSpeed + 4);
         }
     }
     else{
