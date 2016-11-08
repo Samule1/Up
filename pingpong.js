@@ -7,7 +7,7 @@ module.exports = {
         var playerOneScore = 0;
         var playerTwoScore = 0;
         var testspeed = 0;
-        let ballSpeed = 6;
+        var ballSpeed = 6;
         this.players = [];
 
         this.PlayerOneRed = new component(30, 130, "black", 20, 200);
@@ -276,4 +276,4 @@ function reverseDirectionX(rect, ballSpeed){
         }
     }
 }
-//hampus hej
+//hampus hej hejhje
