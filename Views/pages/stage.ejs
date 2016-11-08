@@ -115,7 +115,7 @@
         $('#chat').append(data.nick+' -> '+data.msg + "<br/>");
       });
       socket.on('updateGameState', function(data){
-        updatePositons(data);
+        addToDataBuffer(data);
       });
       socket.on('pingding', function(data){
         socket.emit('ping response');

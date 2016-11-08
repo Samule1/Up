@@ -4,6 +4,8 @@ var p1Changed = false;
 var player2Score = 2;
 var p2Changed = false;
 
+var dataBuffer = [];
+
 var previouseTestupdateFreq = 0;
 var testUpdateFreq = 0
 var firstrun = true;
@@ -42,6 +44,22 @@ function setUpGameScreen(){
   ctx.fillRect(0, 0, 1000, 5); // Top
   ctx.fillRect(0, 495, 1000, 5); // Bottom
   ctx.fillRect(497, 0, 6, 500);
+
+  PlayerOneRed.updateImage();
+  PlayerTwoBlue.updateImage();
+}
+
+function addToDataBuffer(data){
+  dataBuffer.push(data);
+}
+
+function getDataFromBuffer(){
+  if(dataBuffer.length > 0){
+    return null;
+  }
+  else{
+    return dataBuffer.pop();
+  }
 }
 
 function updatePositons(data){
@@ -156,6 +174,10 @@ function updateNewXandY(obj){
 
 function updateGameArea() {
   // Check for changes in scores
+  var newPosFromBuffer = getDataFromBuffer();
+  if(newPosFromBuffer != null){
+    updatePositons(newPosFromBuffer);
+  }
   if(p1Changed){
     $('#playerTwoScoreLabel').text(player1Score);
     p1Changed = false;
