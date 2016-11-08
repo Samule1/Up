@@ -57,12 +57,7 @@ function addToDataBuffer(data){
 }
 
 function getDataFromBuffer(){
-  if(dataBuffer.length > 0){
-    return null;
-  }
-  else{
-    return dataBuffer.pop();
-  }
+    return dataBuffer.splice(0, 1);
 }
 
 function updatePositons(data){
@@ -183,10 +178,6 @@ function updateNewXandY(obj){
 
 function updateGameArea() {
   // Check for changes in scores
-  var newPosFromBuffer = getDataFromBuffer();
-  if(newPosFromBuffer != null){
-    updatePositons(newPosFromBuffer);
-  }
   if(p1Changed){
     $('#playerTwoScoreLabel').text(player1Score);
     p1Changed = false;
@@ -219,6 +210,12 @@ function updateGameArea() {
 
   function drawGameArea(){
     testUpdate();
+
+    var newPosFromBuffer = getDataFromBuffer();
+    //console.log(newPosFromBuffer);
+    if(newPosFromBuffer != null){
+      updatePositons(newPosFromBuffer);
+    }
     // clearCircle and update new x and y
     TheBall.clearCircle();
     updateNewXandY(TheBall);
