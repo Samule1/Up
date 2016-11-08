@@ -247,6 +247,7 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('gameIsReady', (data) =>{
     for(let socketid in activeGames[socket.roomId].inputSockets){
+      console.log('sending a game is ready');
       connections[socketid].emit('game is ready');
     }
   });
