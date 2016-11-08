@@ -6,7 +6,6 @@ module.exports = {
     PingpongGame: function (game, connections) {
         var playerOneScore = 0;
         var playerTwoScore = 0;
-        var ballSpeed = 4;
         var testspeed = 0;
         var ballSpeed = 6;
         this.players = [];
@@ -119,6 +118,7 @@ module.exports = {
         this.stop = function stop() {
             //this.interval.
         }
+
         this.setDirection = function setDirection(playerAndDirection) {
             let speedY = 0;
             let speedX = 0;
@@ -218,18 +218,17 @@ function collisonTest2(rect1, rect2) {
 }
 
 function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
-
     if(collisonTest2(rect1, rect2)){
         var mid = rect2.y + rect2.height/2;
         var interval = rect1.height/5;
-        if(mid < (rect1.y + interval) && mid > rect1.y){  //rect2.x
+        if(mid < (rect1.y + interval)){  //rect2.x
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = ((ballspeed/2) * -1);
+            rect2.speedY = ((ballSpeed/2) * -1);
             rect1.collide = true;
         }
         if(mid > (rect1.y +interval)  && mid < (rect1.y + interval*2)){
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = ((ballspeed/4) * -1);
+            rect2.speedY = ((ballSpeed/4) * -1);
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*2) && mid < (rect1.y + interval*3)){
@@ -239,12 +238,12 @@ function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
         }
         if(mid > (rect1.y + interval*3) && mid < (rect1.y + interval*4)){
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = (ballspeed/4);
+            rect2.speedY = (ballSpeed/4);
             rect1.collide = true;
         }
-        if(mid > (rect1.y + interval*4) && mid < (rect1.y +interval*5)){
+        if(mid > (rect1.y + interval*4)){
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = ballspeed/2;
+            rect2.speedY = ballSpeed/2;
             rect1.collide = true;
         }
     }
