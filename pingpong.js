@@ -217,7 +217,7 @@ function collisonTest2(rect1, rect2) {
     }
 }
 
-function newDirection(rect1, rect2){  // rect2 ball
+function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
     if(collisonTest2(rect1, rect2)){
         var mid = rect2.y + rect2.height/2;
         var interval = rect1.height/5;
