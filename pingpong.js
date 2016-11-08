@@ -8,7 +8,7 @@ module.exports = {
         var playerTwoScore = 0;
         var ballSpeed = 4;
         var testspeed = 0;
-        let ballSpeed = 6;
+        var ballSpeed = 6;
         this.players = [];
 
         this.PlayerOneRed = new component(30, 130, "black", 20, 200);
