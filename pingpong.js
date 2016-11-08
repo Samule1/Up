@@ -218,18 +218,17 @@ function collisonTest2(rect1, rect2) {
 }
 
 function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
-  var ballspeed = ballSpeed;
     if(collisonTest2(rect1, rect2)){
         var mid = rect2.y + rect2.height/2;
         var interval = rect1.height/5;
         if(mid < (rect1.y + interval)){  //rect2.x
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = ((ballspeed/2) * -1);
+            rect2.speedY = ((ballSpeed/2) * -1);
             rect1.collide = true;
         }
         if(mid > (rect1.y +interval)  && mid < (rect1.y + interval*2)){
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = ((ballspeed/4) * -1);
+            rect2.speedY = ((ballSpeed/4) * -1);
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*2) && mid < (rect1.y + interval*3)){
@@ -239,12 +238,12 @@ function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
         }
         if(mid > (rect1.y + interval*3) && mid < (rect1.y + interval*4)){
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = (ballspeed/4);
+            rect2.speedY = (ballSpeed/4);
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*4)){
             reverseDirectionX(rect2, ballSpeed);
-            rect2.speedY = ballspeed/2;
+            rect2.speedY = ballSpeed/2;
             rect1.collide = true;
         }
     }
