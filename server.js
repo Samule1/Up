@@ -148,7 +148,9 @@ io.sockets.on('connection', (socket) => {
               activeGames[data.id].inputSockets[socket.id] = socket.id;
               socket.roomId = data.id;
               socket.type = 'input';
-              socket.player = activeGames[data.id].gameState.getNextPlayerNumber();
+              socket.player = activeGames[data.id].gameState.getNextPlayerNumber(socket.id);
+
+
 
               for(var viewSocketId in activeGames[data.id].viewSockets){
                   connections[viewSocketId].emit('new player connected', data);
@@ -177,9 +179,9 @@ io.sockets.on('connection', (socket) => {
 
   //Trigger vibrate event on phone.. WILL NOT WORK FOR MULTIPLE PHONES...
   socket.on('feedback', (data)=>{
-    for(let socketId in activeGames[socket.roomId].inputSockets){
-      connections[socketId].emit('move received', data);
-    }
+      for(let socketId in activeGames[socket.roomId].inputSockets){
+        connections[socketId].emit('move received', data);
+      }
   });
 
   //Disconnect input

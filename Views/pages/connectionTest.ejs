@@ -90,8 +90,12 @@
       $messageForm.submit(function(e){
         e.preventDefault();
         socket.emit('send message', {msg: $message.val(), id: roomId, nick: nick});
-        console.log($message.val())
+        console.log($message.val());
         $message.val('');
+      });
+
+      socket.on('feedback', function(data){
+        console.log("feedback");
       });
 
       socket.on('pingding', function(data){

@@ -8,6 +8,7 @@ module.exports = {
         var playerTwoScore = 0;
         var testspeed = 0;
         let ballSpeed = 6;
+        this.players = [];
 
         this.PlayerOneRed = new component(30, 130, "black", 20, 200);
         this.PlayerTwoBlue = new component(30, 130, "black", 940, 200);
@@ -17,8 +18,11 @@ module.exports = {
         this.Bottom = new component(1000, 5, "black", 0, 495);
         this.numberOfPlayers = 0;
 
-        this.getNextPlayerNumber  = function getNextPlayerNumber(){
-          return ++this.numberOfPlayers;
+        this.getNextPlayerNumber  = function getNextPlayerNumber(socketId){
+          let np = ++this.numberOfPlayers;
+          this.players[np] = socketId;
+          return np;
+
         }
         this.update = function update() {
             if (collisonTest2(this.Top, this.TheBall)) {
@@ -39,7 +43,13 @@ module.exports = {
             }
             this.TheBall.newPos();
             newDirection(this.PlayerOneRed, this.TheBall, ballSpeed);
+            if(this.PlayerOneRed.collide){
+              connections[this.players[1]].emit('feedback');
+            }
             newDirection(this.PlayerTwoBlue, this.TheBall, ballSpeed);
+            if(this.PlayerTwoBlue.collide){
+              connections[this.players[2]].emit('feedback');
+            }
 
             if (this.TheBall.x < 0) {
                 this.TheBall.x = 480;
@@ -86,8 +96,10 @@ module.exports = {
         }
 
         this.increasespeed = function increasespeed(){
+          /*
           console.log("timer increased speed of ball");
           console.log(ballSpeed);
+          */
           if(ballSpeed < 12)
             ballSpeed += 4;
             if(this.TheBall.speedX > 0){
@@ -208,7 +220,6 @@ function collisonTest2(rect1, rect2) {
 function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
   var ballspeed = ballSpeed;
     if(collisonTest2(rect1, rect2)){
-        console.log("collison");
         var mid = rect2.y + rect2.height/2;
         var interval = rect1.height/5;
         if(mid < (rect1.y + interval)){  //rect2.x

@@ -49,9 +49,7 @@ function setUpGameScreen(){
   ctx.fillRect(497, 0, 6, 500);
 
   PlayerOneRed.updateImage();
-  console.log(PlayerTwoBlue);
   PlayerTwoBlue.updateImage();
-  console.log(PlayerTwoBlue);
 }
 
 function addToDataBuffer(data){
@@ -59,7 +57,6 @@ function addToDataBuffer(data){
 }
 
 function getDataFromBuffer(){
-  console.log(dataBuffer.length);
   if(dataBuffer.length > 0){
     return null;
   }
