@@ -275,4 +275,4 @@ function reverseDirectionX(rect, ballSpeed){
         }
     }
 }
-//hampus hej
+//hampus hej hejhje
