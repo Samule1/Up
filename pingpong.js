@@ -43,11 +43,11 @@ module.exports = {
             }
             this.TheBall.newPos();
             newDirection(this.PlayerOneRed, this.TheBall, ballSpeed);
-            if(this.PlayerOneRed.collide){
+            if(this.PlayerOneRed.collide && connections[this.players[1]] != undefined ){
               connections[this.players[1]].emit('feedback');
             }
             newDirection(this.PlayerTwoBlue, this.TheBall, ballSpeed);
-            if(this.PlayerTwoBlue.collide){
+            if(this.PlayerTwoBlue.collide && connections[this.players[2]] != undefined ){
               connections[this.players[2]].emit('feedback');
             }
 
@@ -86,7 +86,10 @@ module.exports = {
                 timeStamp: new Date().getTime()
             };
             for (var socketId in game.viewSockets) {
-                connections[socketId].emit('updateGameState', gameState)
+                if(connections[socketId] != undefined){
+                    connections[socketId].emit('updateGameState', gameState)
+                }
+
             }
             this.Top.collide = false;
             this.Bottom.collide = false;

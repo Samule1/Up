@@ -111,6 +111,7 @@
               $('#gFrame').load('/gameframe', function(){
                 $('#loader').css('display', 'none');
                   startGame();
+                  socket.emit('gameIsReady');
                   socket.emit('start game');
               });
             }, 1000)
