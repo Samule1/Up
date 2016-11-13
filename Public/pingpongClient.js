@@ -61,7 +61,6 @@ function getDataFromBuffer(){
 }
 
 function updatePositons(data){
-
   if(data.timeStamp > lastPackage){
     PlayerOneRed.nextX = data.p1.x;
     PlayerOneRed.nextY = data.p1.y;
@@ -211,11 +210,13 @@ function updateGameArea() {
   function drawGameArea(){
     testUpdate();
 
+/* Testat databuffert för inkonmmande data .... buggigt
     var newPosFromBuffer = getDataFromBuffer();
     //console.log(newPosFromBuffer);
     if(newPosFromBuffer != null){
       updatePositons(newPosFromBuffer);
     }
+*/
     // clearCircle and update new x and y
     TheBall.clearCircle();
     updateNewXandY(TheBall);

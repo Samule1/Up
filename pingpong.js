@@ -44,11 +44,11 @@ module.exports = {
             this.TheBall.newPos();
             newDirection(this.PlayerOneRed, this.TheBall, ballSpeed);
             if(this.PlayerOneRed.collide){
-              connections[this.players[1]].emit('feedback');
+              //connections[this.players[1]].emit('feedback');
             }
             newDirection(this.PlayerTwoBlue, this.TheBall, ballSpeed);
             if(this.PlayerTwoBlue.collide){
-              connections[this.players[2]].emit('feedback');
+              //connections[this.players[2]].emit('feedback');
             }
 
             if (this.TheBall.x < 0) {

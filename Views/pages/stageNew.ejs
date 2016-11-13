@@ -124,7 +124,7 @@
       });
       */
       socket.on('updateGameState', function(data){
-        addToDataBuffer(data);
+        updatePositons(data);
       });
       socket.on('pingding', function(data){
         socket.emit('ping response');
