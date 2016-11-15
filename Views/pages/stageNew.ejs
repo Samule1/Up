@@ -119,6 +119,11 @@
         }
       })
 
+/*
+      socket.on('updateGameState', function(data){
+        updatePositons(data);
+      });
+      */
       socket.on('updateGameState', function(data){
         //addToDataBuffer(data);
         updatePositons(data);
