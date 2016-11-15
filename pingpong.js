@@ -46,11 +46,11 @@ module.exports = {
             this.TheBall.newPos();
             newDirection(this.PlayerOneRed, this.TheBall, ballSpeed);
             if(this.PlayerOneRed.collide){
-              //connections[this.players[1]].emit('feedback');
+              connections[this.players[1]].emit('feedback');
             }
             newDirection(this.PlayerTwoBlue, this.TheBall, ballSpeed);
             if(this.PlayerTwoBlue.collide){
-              //connections[this.players[2]].emit('feedback');
+              connections[this.players[2]].emit('feedback');
             }
 
             if (this.TheBall.x < 0) {
@@ -223,35 +223,27 @@ function newDirection(rect1, rect2, ballSpeed){  // rect2 ball
     if(collisonTest2(rect1, rect2)){
         var mid = rect2.y + rect2.height/2;
         var interval = rect1.height/5;
-        console.log("collision");
-        console.log(rect2);
-        console.log(rect1);
         if(mid < (rect1.y + interval)){  //rect2.x
-            console.log("col1");
             reverseDirectionX(rect2, ballSpeed);
             rect2.speedY = ((ballSpeed/2) * -1);
             rect1.collide = true;
         }
         if(mid > (rect1.y +interval)  && mid <= (rect1.y + interval*2)){
-            console.log("col2");
             reverseDirectionX(rect2, ballSpeed);
             rect2.speedY = ((ballSpeed/4) * -1);
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*2) && mid <= (rect1.y + interval*3)){
-            console.log("col3");
             reverseDirectionX(rect2, ballSpeed);
             rect2.speedY = 0;
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*3) && mid <= (rect1.y + interval*4)){
-            console.log("col4");
             reverseDirectionX(rect2, ballSpeed);
             rect2.speedY = (ballSpeed/4);
             rect1.collide = true;
         }
         if(mid > (rect1.y + interval*4)){
-            console.log("col5");
             reverseDirectionX(rect2, ballSpeed);
             rect2.speedY = ballSpeed/2;
             rect1.collide = true;
