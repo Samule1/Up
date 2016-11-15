@@ -48,6 +48,7 @@ function setUpGameScreen(){
   ctx.fillRect(0, 495, 1000, 5); // Bottom
   ctx.fillRect(497, 0, 6, 500);
 
+  ctx = myGameArea.context;
   PlayerOneRed.updateImage();
   PlayerTwoBlue.updateImage();
 }
