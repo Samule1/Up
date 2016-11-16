@@ -45,11 +45,11 @@ module.exports = {
             }
             this.TheBall.newPos();
             newDirection(this.PlayerOneRed, this.TheBall, ballSpeed);
-            if(this.PlayerOneRed.collide){
+            if(this.PlayerOneRed.collide && connections[this.players[1]] != undefined ){
               connections[this.players[1]].emit('feedback');
             }
             newDirection(this.PlayerTwoBlue, this.TheBall, ballSpeed);
-            if(this.PlayerTwoBlue.collide){
+            if(this.PlayerTwoBlue.collide && connections[this.players[2]] != undefined){
               connections[this.players[2]].emit('feedback');
             }
 
