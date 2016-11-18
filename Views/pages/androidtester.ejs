@@ -44,7 +44,7 @@
         <div class="col-xs-12">
             <div class="col-xs-4"></div>
                 <div class="col-xs-4 text-center">
-                  <input id="startGameButton" type="button" class="btn-info" value="Waiting for connection">
+                  <input id="startGameButton" type="button" class="btn btn-info" value="Waiting for connection">
                 </div>
             <div class="col-xs-4"></div>
         </div>
@@ -92,6 +92,7 @@
             setTimeout(function(){
               $('#gFrame').load('/androidtestsite', function(){
                 $('#loader').css('display', 'none');
+                socket.emit('gameIsReady');
               });
             }, 5000)
           })

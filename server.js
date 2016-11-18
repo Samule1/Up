@@ -67,13 +67,26 @@ io.sockets.on('connection', (socket) => {
     //Disconnect
   socket.on('disconnect', (data)=> {
       if(socket.type === 'output'){
+          activeGames[socket.roomId].viewSockets.length--;
           delete activeGames[socket.roomId].viewSockets[socket.id];
           activeGames.numberOfObservers--;
+
+          //If there is no output hooked up to a game the game shold end..
+          if(activeGames[socket.roomId].viewSockets.length == 0){
+            for(var socketid in activeGames[socket.roomId].inputSockets){
+              connections[socketid].emit('quit');
+            }
+            activeGames[socket.roomId].gameState = null;
+            activeGames.numberOfGames--;
+          }
           //generate disconnect event
       }
       else if(socket.type === 'input'){
+          activeGames[socket.roomId].inputSockets.length--;
           delete activeGames[socket.roomId].inputSockets[socket.id];
           activeGames.numberOfPlayers--;
+          //If there are 0 inputSockets to a game, that game should be deleted..
+
       }
       else if(socket.type == 'admin'){
         adminsockets.splice(adminsockets.indexOf(socket), 1);
@@ -81,6 +94,14 @@ io.sockets.on('connection', (socket) => {
       else{
           console.log('Error in disconnect' + socket);
       }
+      //Preform total delete if there is noone left..
+      if(activeGames[socket.roomId] != null){
+        if(activeGames[socket.roomId].inputSockets.length === 0 &&
+           activeGames[socket.roomId].viewSockets.length === 0){
+           delete activeGames[socket.roomId];
+         }
+      }
+
 
       adminsockets.forEach((socket)=>{
         socket.emit('baseStatPack', activeGames.getStatPack())
@@ -126,11 +147,15 @@ io.sockets.on('connection', (socket) => {
           activeGames.numberOfGames++;
           activeGames.numberOfObservers++;
 
+          game.viewSockets.length++;
+
+
         }
         else {
           socket.roomId = data.id;
           socket.type = 'output';
           activeGames[data.id].viewSockets[socket.id] = socket.id;
+          activeGames[data.id].viewSockets.length++;
           activeGames.numberOfObservers++;
           console.log('Connected new observer socket!');
         }
@@ -146,6 +171,7 @@ io.sockets.on('connection', (socket) => {
           }
           else {
               activeGames[data.id].inputSockets[socket.id] = socket.id;
+              activeGames[data.id].inputSockets.length++;
               socket.roomId = data.id;
               socket.type = 'input';
               socket.player = activeGames[data.id].gameState.getNextPlayerNumber(socket.id);
@@ -168,6 +194,7 @@ io.sockets.on('connection', (socket) => {
           }
       }
       else if(data.type === 'admin'){
+        socket.type = data.type;
         adminsockets.push(socket);
         socket.emit('baseStatPack', activeGames.getStatPack())
       };
@@ -218,6 +245,13 @@ io.sockets.on('connection', (socket) => {
 
   socket.on('getBaseStatPack', (data)=>{
     socket.emit('baseStatPack', activeGames.getStatPack());
+  });
+
+  socket.on('gameIsReady', (data) =>{
+    for(let socketid in activeGames[socket.roomId].inputSockets){
+      console.log('sending a game is ready');
+      connections[socketid].emit('game is ready');
+    }
   });
 
 });

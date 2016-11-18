@@ -102,6 +102,10 @@
         socket.emit('ping response');
       });
 
+      socket.on('quit', function(data){
+        alert('All the viewsockets to the game, are disconnected, you will be dropped from the server..')
+      });
+
       socket.on('new message', function(data){
         console.log(data.msg);
         $chat.html("");
