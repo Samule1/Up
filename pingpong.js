@@ -35,13 +35,17 @@ module.exports = {
                 reverseAngel(this.TheBall);
                 this.TheBall.collide = true;
             }
-            if ((this.PlayerOneRed.y + this.PlayerOneRed.speedY) > 0 && (this.PlayerOneRed.y + this.PlayerOneRed.speedY) < 500 - 130
-            && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) > 0 && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) < 400 ) {
-                this.PlayerOneRed.newPos();
+            if((this.PlayerOneRed.y + this.PlayerOneRed.speedY) > 0 && (this.PlayerOneRed.y + this.PlayerOneRed.speedY) < (500 - 130)){
+              this.PlayerOneRed.newPosY();
             }
-            if ((this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) > 0 && (this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) < 500 - 130
-                && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) > 600 && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) < 970) {
-                this.PlayerTwoBlue.newPos();
+            if((this.PlayerOneRed.x + this.PlayerOneRed.speedX) > 0 && (this.PlayerOneRed.x + this.PlayerOneRed.speedX) < 400 ){
+              this.PlayerOneRed.newPosX();
+            }
+            if((this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) > 0 && (this.PlayerTwoBlue.y + this.PlayerTwoBlue.speedY) < (500 - 130)){
+              this.PlayerTwoBlue.newPosY();
+            }
+            if((this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) > 600 && (this.PlayerTwoBlue.x + this.PlayerTwoBlue.speedX) < 970){
+              this.PlayerTwoBlue.newPosX();
             }
             this.TheBall.newPos();
             newDirection(this.PlayerOneRed, this.TheBall, ballSpeed);
@@ -207,6 +211,12 @@ function component(width, height, color, x, y) {
     this.newPos = function() {
         this.x += this.speedX;
         this.y += this.speedY;
+    }
+    this.newPosX = function(){
+      this.x += this.speedX;
+    }
+    this.newPosY = function(){
+      this.y += this.speedY;
     }
 }
 
