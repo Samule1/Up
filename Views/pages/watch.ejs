@@ -36,6 +36,18 @@
           socket.emit('ping response');
         });
 
+        setInterval(function(){
+          var t = new Date().getTime();
+          socket.emit('ping from client', {t0: t});
+        },1000)
+
+        socket.on('pfs', function(data){
+          var t1 = new Date().getTime();
+          var dt = t1 - data.t0;
+          $('#pingP').text("PING: "+dt);
+
+        });
+
       })
     </script>
   </body>
