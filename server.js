@@ -242,7 +242,9 @@ io.sockets.on('connection', (socket) => {
     socket.tempPingData.callback = function(req, res, tStart, tStop){};
 
   });
-
+  socket.on('ping from client', (data)=>{
+    socket.emit('pfs', data); 
+  });
   socket.on('getBaseStatPack', (data)=>{
     socket.emit('baseStatPack', activeGames.getStatPack());
   });

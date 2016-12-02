@@ -113,6 +113,10 @@
                   startGame();
                   socket.emit('gameIsReady');
                   socket.emit('start game');
+                  setInterval(function(){
+                    var t = new Date().getTime();
+                    socket.emit('ping from client', {t0: t});
+                  },1000)
               });
             }, 1000)
           })
@@ -130,6 +134,14 @@
       });
       socket.on('pingding', function(data){
         socket.emit('ping response');
+      });
+
+
+      socket.on('pfs', function(data){
+        var t1 = new Date().getTime();
+        var dt = t1 - data.t0;
+        $('#pingP').text("PING: "+dt);
+        
       });
     });
 
