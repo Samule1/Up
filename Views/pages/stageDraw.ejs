@@ -90,7 +90,7 @@
         $(this).toggleClass('hooverResponderColor');
       });
       //Regestring the socket..
-      socket.emit('register', {id: data, type: 'output', game: 'pong'});
+      socket.emit('register', {id: data, type: 'output', game: 'draw'});
 
 
       //Add the name-tag on thr side of QR.
@@ -108,7 +108,7 @@
 
             //Faking some load-time here test the loader..
             setTimeout(function(){
-              $('#gFrame').load('/gameframe', function(){
+              $('#gFrame').load('/gameframedraw', function(){
                 $('#loader').css('display', 'none');
                   startGame();
                   socket.emit('gameIsReady');

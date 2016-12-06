@@ -23,6 +23,9 @@ module.exports = {
       app.get('/gameframe', function (req, res) {
           res.render('partials/gameWindow');
       });
+      app.get('/gameframedraw', function (req, res) {
+          res.render('partials/gameWindowDraw');
+      });
       app.get('/inputCard', function (req, res) {
           res.render('partials/inputCard', {roomId: req.query.roomId, nick: req.query.nick})
       });
@@ -33,6 +36,14 @@ module.exports = {
           let playerLimit = 2;
           qrSource = qrSource.replace("[roomId]", uniqueId);
           res.render('pages/stageNew', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
+      });
+
+      app.get('/stageDrawGame', function (req, res) {
+          let uniqueId = helper.getRandomId5();
+          let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
+          let playerLimit = 2;
+          qrSource = qrSource.replace("[roomId]", uniqueId);
+          res.render('pages/stageDraw', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
       });
 
       app.get('/androidtest', function(req, res){
