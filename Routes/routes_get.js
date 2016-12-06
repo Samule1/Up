@@ -41,7 +41,7 @@ module.exports = {
       app.get('/stageDrawGame', function (req, res) {
           let uniqueId = helper.getRandomId5();
           let qrSource = "https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=[roomId]"
-          let playerLimit = 2;
+          let playerLimit = 1;
           qrSource = qrSource.replace("[roomId]", uniqueId);
           res.render('pages/stageDraw', {data: uniqueId, qr: qrSource, playerLimit: playerLimit});
       });

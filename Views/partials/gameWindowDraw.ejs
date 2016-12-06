@@ -1,2 +1,72 @@
-<div class="container"></div>
+<div class="test">
+
+</div>
+
+<div class="col-md-12" style="margin-top: 6%">
+    <table class="hej" style="width: inherit">
+        <tbody>
+        <tr>
+          <th>
+
+          </th>
+          <th style="text-align: center;">
+            <p id="pingP">PING: 20 </p>
+          </th>
+          <th>
+
+          </th>
+        </tr>
+        <tr>
+            <td style="width: 7%">
+                <div style="text-align: center;">
+                    <label id="playerOneScoreLabel" style="text-align: center; font-size: xx-large; color: black;">0</label>
+                </div>
+            </td>
+            <td style="position: relative; text-align: center">
+                <div class="blur">
+
+                </div>
+                <div id="canvasContainer" style="position: relative;">
+                </div>
+            </td>
+            <td style="width: 7%;">
+                <div style="text-align: center;">
+                    <label id="playerTwoScoreLabel" style="text-align: center; font-size: xx-large; color: black;">0</label>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<style>
+  canvas {
+        width: 1000px;
+        height: 500px;
+        Vertical-align: middle;
+        border-radius: 10px;
+        border: 20px solid #ffffff
+    }
+    .test {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-image: url("Images/test3.jpg");
+    filter: blur(3px);
+    z-index:-2;
+    -webkit-filter: blur(15px);
+    }
+    .blur {
+      -webkit-filter: blur(5px);
+      -moz-filter: blur(5px);
+      -o-filter: blur(5px);
+      -ms-filter: blur(5px);
+      filter: blur(5px);
+    }
+  </style>
+
+
 <script type ="text/javascript" src="/drawgameClient.js"></script>
