@@ -5,9 +5,10 @@ var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
 var helper = require('./helpers.js');
 var models = require('./models.js');
-var games = require('./pingpong.js');
+var Pong = require('./pingpong.js');
 var bodyParser = require('body-parser')
 var Socket = require('socket.io/lib/socket');
+var Draw = require('./draw.js')
 
 //Globals
 let connections = [];
@@ -140,7 +141,12 @@ io.sockets.on('connection', (socket) => {
           console.log('Registred room: ' + data.id);
 
           //Here maybe an instance of the game should be created..
-          activeGames[data.id].gameState = new games.PingpongGame(activeGames[data.id], connections);
+          if(data.game === 'pong'){
+            activeGames[data.id].gameState = new Pong.PingpongGame(activeGames[data.id], connections);
+          }
+          else if (data.game === 'draw') {
+            activeGames[data.id].gameState = new Draw.DrawGame(activeGames[data.id], connections);
+          }
 
           activeGames[data.id].meta.isActive = true;
 
@@ -243,7 +249,7 @@ io.sockets.on('connection', (socket) => {
 
   });
   socket.on('ping from client', (data)=>{
-    socket.emit('pfs', data); 
+    socket.emit('pfs', data);
   });
   socket.on('getBaseStatPack', (data)=>{
     socket.emit('baseStatPack', activeGames.getStatPack());
