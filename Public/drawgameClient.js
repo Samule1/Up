@@ -1,10 +1,11 @@
 var playerArray = [];
+var lastPackage = 0;
 
 function startGame(){
   console.log('StartGame() has been called1')
   myBackgroundArea.start();
   myGameArea.start();
-
+  drawGameArea();
 }
 
 var requestAnimationFrame =
@@ -45,6 +46,17 @@ var myGameArea = {
     clear : function() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
+}
+
+function updatePositons(data){
+  console.log(data);
+}
+
+
+function drawGameArea(){
+
+
+  requestAnimationFrame(drawGameArea);
 }
 
 function component(width, height, color, x, y, img) {

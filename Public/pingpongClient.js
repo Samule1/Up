@@ -82,7 +82,7 @@ function updatePositons(data){
       p2Changed = true;
     }
     lastPackage = data.timeStamp;
-    updateGameArea();
+    //updateGameArea();
     }
     else{
       console.log('lost packet..');

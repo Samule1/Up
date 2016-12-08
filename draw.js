@@ -5,6 +5,7 @@ module.exports ={
     this.playerComponents = [];
     this.players = [];
     this.numberOfPlayers = 0;
+    this.gameState = [];
     this.getNextPlayerNumber  = function getNextPlayerNumber(socketId){
       let np = ++this.numberOfPlayers;
       this.players[np] = socketId;
@@ -12,7 +13,7 @@ module.exports ={
     };
 
     this.start = function(){
-      setUpPlayers();
+      this.setUpPlayers();
       let t = this;
       this.interval = setInterval(function(){t.update()}, 20);
     };
@@ -22,29 +23,27 @@ module.exports ={
     };
 
     this.update = function(){
-      for(int i = 0; i<this.numberOfPlayers; i++){
+      for(var i = 0; i<this.numberOfPlayers; i++){
         this.playerComponents[i].newPos();
+        var playerPos = new playerPackage(this.playerComponents[i].x, this.playerComponents[i].y);
+        this.gameState[i] = playerPos;
       }
 
+      for (var socketId in game.viewSockets) {
+          connections[socketId].emit('updateGameState', this.gameState)
+      }
 
-      let gameState = {
-          nrOfPlayer: {nr: this.numberOfPlayers},
-          p1: {x: this.PlayerOneRed.x, y: this.PlayerOneRed.y, collide:this.PlayerOneRed.collide},
-          p2: {x: this.PlayerTwoBlue.x, y: this.PlayerTwoBlue.y, collide:this.PlayerTwoBlue.collide},
-          ball: {x: this.TheBall.x, y: this.TheBall.y, collide:this.TheBall.collide},
-          Top: {collide: this.Top.collide},
-          Bottom: {collide: this.Bottom.collide},
-          playerScore: {playerOneScore: playerOneScore, playerTwoScore: playerTwoScore},
-          timeStamp: new Date().getTime()
-      };
     };
 
     this.setUpPlayers = function(){
-      for(int i = 0; i<this.numberOfPlayers; i++){
+      for(var i = 0; i<this.numberOfPlayers; i++){
         var x = Math.random()*1000;
+        x = Math.round(x);
         var y = Math.random()*800;
+        y = Math.round(y);
         this.playerComponents[i] = new component(100, 100, "black", x, y);
       }
+      console.log(this.playerComponents);
     };
 
     this.setDirection = function setDirection(playerAndDirection) {
@@ -119,6 +118,11 @@ module.exports ={
         }
     }
   }
+}
+
+function playerPackage(x, y){
+  this.x = x;
+  this.y = y;
 }
 
 function component(width, height, color, x, y) {
