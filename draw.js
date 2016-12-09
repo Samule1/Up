@@ -2,6 +2,8 @@
 module.exports ={
   //constructor
   DrawGame: function(game, connections){
+    var fastSpeed = 8;
+    var slowSpeed = 4;
     this.playerComponents = [];
     this.players = [];
     this.numberOfPlayers = 0;
@@ -24,8 +26,14 @@ module.exports ={
 
     this.update = function(){
       for(var i = 0; i<this.numberOfPlayers; i++){
-        this.playerComponents[i].newPos();
-        var playerPos = new playerPackage(this.playerComponents[i].x, this.playerComponents[i].y);
+        var newX = this.playerComponents[i].x + this.playerComponents[i].speedX;
+        var newY = this.playerComponents[i].y + this.playerComponents[i].speedY;
+        var objHeight = this.playerComponents[i].height;
+        var objWidth = this.playerComponents[i].width;
+        if(newX > 0 && newY > 0 && ((newY + objHeight) < 500) && ((newX + objWidth) < 1000 )){
+          this.playerComponents[i].newPos();
+        }
+        var playerPos = new playerPackage(this.playerComponents[i].x, this.playerComponents[i].y, this.playerComponents[i].width, this.playerComponents[i].height);
         this.gameState[i] = playerPos;
       }
 
@@ -37,9 +45,9 @@ module.exports ={
 
     this.setUpPlayers = function(){
       for(var i = 0; i<this.numberOfPlayers; i++){
-        var x = Math.random()*1000;
+        var x = Math.random()*500;
         x = Math.round(x);
-        var y = Math.random()*800;
+        var y = Math.random()*500;
         y = Math.round(y);
         this.playerComponents[i] = new component(100, 100, "black", x, y);
       }
@@ -105,24 +113,18 @@ module.exports ={
             speedX = fastSpeed * -1;
             speedY = fastSpeed * -1;
         }
-        if (playerAndDirection.player === 1) {
-            this.PlayerOneRed.speedY = speedY;
-            this.PlayerOneRed.speedX = speedX;
-        }
-        else if (playerAndDirection.player === 2) {
-            this.PlayerTwoBlue.speedY = speedY;
-            this.PlayerTwoBlue.speedX = speedX;
-        }
-        else {
-            console.log('error in playerDirection');
-        }
+        console.log(playerAndDirection);
+        this.playerComponents[playerAndDirection.player-1].speedX = speedX;
+        this.playerComponents[playerAndDirection.player-1].speedY = speedY;
     }
   }
 }
 
-function playerPackage(x, y){
+function playerPackage(x, y, width, height){
   this.x = x;
   this.y = y;
+  this.width = width;
+  this.height = height;
 }
 
 function component(width, height, color, x, y) {

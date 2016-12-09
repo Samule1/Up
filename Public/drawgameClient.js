@@ -1,10 +1,14 @@
 var playerArray = [];
 var lastPackage = 0;
 
+var imageKanye = new Image();
+imageKanye.src = '/Images/kanye.png';
+
 function startGame(){
   console.log('StartGame() has been called1')
   myBackgroundArea.start();
   myGameArea.start();
+  setUpPlayers();
   drawGameArea();
 }
 
@@ -48,13 +52,34 @@ var myGameArea = {
     }
 }
 
+function setUpPlayers(){
+  for(var i = 0; i<connectedPlayers; i++){
+    var player = new component(100, 100, "black", 1500, 1500, imageKanye);
+    playerArray[i] = player;
+  }
+}
+
 function updatePositons(data){
+  /*
   console.log(data);
+  console.log(data[0].x);
+  console.log(data[0].y);
+  console.log(connectedPlayers);
+  console.log(playerArray);
+  */
+  for(var i = 0; i<connectedPlayers; i++){
+    playerArray[i].x = data[i].x;
+    playerArray[i].y = data[i].y;
+  }
+
 }
 
 
 function drawGameArea(){
-
+  for(var i = 0; i<connectedPlayers; i++){
+    //console.log("Player : " + i + " " + playerArray[i].x + " " + playerArray[i].y);
+    playerArray[i].updateImage();
+  }
 
   requestAnimationFrame(drawGameArea);
 }

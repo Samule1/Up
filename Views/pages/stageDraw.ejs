@@ -78,11 +78,11 @@
     <div class="sk-cube sk-cube9"></div>
 </div>
   <script type="text/javascript">
+  var connectedPlayers = 0;
     $(function(){
       var socket = io.connect();
       var data = '<%= data %>'
       var playerLimit = '<%= playerLimit %>';
-      var connectedPlayers = 0;
       $('#startGameButton').hover(function(){
         $(this).toggleClass('hooverResponder');
       });
