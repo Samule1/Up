@@ -49,7 +49,7 @@ module.exports ={
         x = Math.round(x);
         var y = Math.random()*500;
         y = Math.round(y);
-        this.playerComponents[i] = new component(100, 100, "black", x, y);
+        this.playerComponents[i] = new component(70, 100, "black", x, y);
       }
       console.log(this.playerComponents);
     };
@@ -57,6 +57,7 @@ module.exports ={
     this.setDirection = function setDirection(playerAndDirection) {
         let speedY = 0;
         let speedX = 0;
+        /*
         if (playerAndDirection.move === 'U0') {
             speedY = slowSpeed *-1;
         }
@@ -113,6 +114,9 @@ module.exports ={
             speedX = fastSpeed * -1;
             speedY = fastSpeed * -1;
         }
+        */
+        speedX = Math.floor(playerAndDirection.y);
+        speedY = Math.floor(playerAndDirection.x);
         console.log(playerAndDirection);
         this.playerComponents[playerAndDirection.player-1].speedX = speedX;
         this.playerComponents[playerAndDirection.player-1].speedY = speedY;

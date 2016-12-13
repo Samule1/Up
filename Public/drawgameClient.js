@@ -54,7 +54,7 @@ var myGameArea = {
 
 function setUpPlayers(){
   for(var i = 0; i<connectedPlayers; i++){
-    var player = new component(100, 100, "black", 1500, 1500, imageKanye);
+    var player = new component(70, 100, "black", 1500, 1500, imageKanye);
     playerArray[i] = player;
   }
 }
