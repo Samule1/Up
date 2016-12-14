@@ -68,8 +68,10 @@ function updatePositons(data){
   console.log(playerArray);
   */
   for(var i = 0; i<connectedPlayers; i++){
-    playerArray[i].x = data[i].x;
-    playerArray[i].y = data[i].y;
+    playerArray[i].nextX = data[i].x;
+    playerArray[i].nextY = data[i].y;
+    playerArray[i].width = data[i].width;
+    playerArray[i].height = data[i].height;
   }
 
 }
@@ -78,6 +80,9 @@ function updatePositons(data){
 function drawGameArea(){
   for(var i = 0; i<connectedPlayers; i++){
     //console.log("Player : " + i + " " + playerArray[i].x + " " + playerArray[i].y);
+    playerArray[i].clearObj();
+    console.log(playerArray[i]);
+    playerArray[i].newPos();
     playerArray[i].updateImage();
   }
 
@@ -87,8 +92,8 @@ function drawGameArea(){
 function component(width, height, color, x, y, img) {
     this.width = width;
     this.height = height;
-    this.nextX = 0;
-    this.nextY = 0;
+    this.nextX = 200;
+    this.nextY = 200;
     this.x = x;
     this.y = y;
     this.sprite = img;
@@ -115,8 +120,8 @@ function component(width, height, color, x, y, img) {
         ctx.clearRect(this.x, this.y, this.width, this.height);
     }
     this.newPos = function() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+        this.x = this.nextX;
+        this.y = this.nextY;
     }
     this.updateImage = function(){
         ctx = myGameArea.context;

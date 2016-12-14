@@ -25,23 +25,29 @@ module.exports ={
     };
 
     this.update = function(){
-      for(var i = 0; i<this.numberOfPlayers; i++){
-        var newX = this.playerComponents[i].x + this.playerComponents[i].speedX;
-        var newY = this.playerComponents[i].y + this.playerComponents[i].speedY;
-        var objHeight = this.playerComponents[i].height;
-        var objWidth = this.playerComponents[i].width;
-        if(newX > 0 && newY > 0 && ((newY + objHeight) < 500) && ((newX + objWidth) < 1000 )){
-          this.playerComponents[i].newPos();
-        }
-        var playerPos = new playerPackage(this.playerComponents[i].x, this.playerComponents[i].y, this.playerComponents[i].width, this.playerComponents[i].height);
-        this.gameState[i] = playerPos;
-      }
-
+      this.updateSpeedXY();
       for (var socketId in game.viewSockets) {
           connections[socketId].emit('updateGameState', this.gameState)
       }
 
     };
+
+    this.updateSpeedXY = function(){
+        for(var i = 0; i<this.numberOfPlayers; i++){
+          var newX = this.playerComponents[i].x + this.playerComponents[i].speedX;
+          var newY = this.playerComponents[i].y + this.playerComponents[i].speedY;
+          var objHeight = this.playerComponents[i].height;
+          var objWidth = this.playerComponents[i].width;
+          if((newY) > 0 && (newY) < (500 - objHeight)){
+            this.playerComponents[i].newPosY();
+          }
+          if((newX) > 0 && (newX) < (1000 - objWidth)){
+            this.playerComponents[i].newPosX();
+          }
+          var playerPos = new playerPackage(this.playerComponents[i].x, this.playerComponents[i].y, this.playerComponents[i].width, this.playerComponents[i].height);
+          this.gameState[i] = playerPos;
+        }
+    }
 
     this.setUpPlayers = function(){
       for(var i = 0; i<this.numberOfPlayers; i++){
@@ -122,6 +128,12 @@ module.exports ={
         this.playerComponents[playerAndDirection.player-1].speedY = speedY;
     }
   }
+}
+
+function picturePool(width, height, name){
+  this.width = width;
+  this.height = height;
+  this.name = name;
 }
 
 function playerPackage(x, y, width, height){
