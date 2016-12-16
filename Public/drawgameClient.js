@@ -132,5 +132,5 @@ function component(width, height, color, x, y, img) {
         ctx.shadowOffsetY = 15;
         */
         ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
-    }
+    }//
 }
