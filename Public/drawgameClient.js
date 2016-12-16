@@ -81,7 +81,7 @@ function drawGameArea(){
   for(var i = 0; i<connectedPlayers; i++){
     //console.log("Player : " + i + " " + playerArray[i].x + " " + playerArray[i].y);
     playerArray[i].clearObj();
-    console.log(playerArray[i]);
+    //console.log(playerArray[i]);
     playerArray[i].newPos();
     playerArray[i].updateImage();
   }

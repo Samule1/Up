@@ -57,7 +57,7 @@ module.exports ={
         y = Math.round(y);
         this.playerComponents[i] = new component(70, 100, "black", x, y);
       }
-      console.log(this.playerComponents);
+      //console.log(this.playerComponents);
     };
 
     this.setDirection = function setDirection(playerAndDirection) {
@@ -123,7 +123,7 @@ module.exports ={
         */
         speedX = Math.floor(playerAndDirection.y);
         speedY = Math.floor(playerAndDirection.x);
-        console.log(playerAndDirection);
+        //console.log(playerAndDirection);
         this.playerComponents[playerAndDirection.player-1].speedX = speedX;
         this.playerComponents[playerAndDirection.player-1].speedY = speedY;
     }
