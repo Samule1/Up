@@ -1,6 +1,6 @@
 var playerArray = [];
 var lastPackage = 0;
-
+// pic
 var imageKanye = new Image();
 imageKanye.src = '/Images/kanye.png';
 
