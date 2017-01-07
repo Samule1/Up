@@ -8,7 +8,9 @@ var models = require('./models.js');
 var Pong = require('./pingpong.js');
 var bodyParser = require('body-parser')
 var Socket = require('socket.io/lib/socket');
-var Draw = require('./draw.js')
+var Draw = require('./draw.js');
+var AndroidTest = require('./androidtestscript.js');
+
 
 //Globals
 let connections = [];
@@ -146,6 +148,9 @@ io.sockets.on('connection', (socket) => {
           }
           else if (data.game === 'draw') {
             activeGames[data.id].gameState = new Draw.DrawGame(activeGames[data.id], connections);
+          }
+          else if(data.game === 'andriodTest'){
+            activeGames[data.id].gameState = new AndroidTest.AndroidTester();  
           }
 
           activeGames[data.id].meta.isActive = true;

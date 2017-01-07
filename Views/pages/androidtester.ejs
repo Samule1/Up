@@ -71,7 +71,7 @@
       console.log(data);
 
       //Regestring the socket..
-      socket.emit('register', {id: data, type: 'output'});
+      socket.emit('register', {id: data, type: 'output', game: 'andriodTest'});
 
 
       //Add the name-tag on thr side of QR.
